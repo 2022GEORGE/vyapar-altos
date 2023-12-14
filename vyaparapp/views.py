@@ -17,7 +17,7 @@ from openpyxl import load_workbook
 from django.http.response import JsonResponse, HttpResponse
 from openpyxl import Workbook
 from num2words import num2words
-from django.template.loader import get_template
+from django.template.loader import get_template,render_to_string
 from xhtml2pdf import pisa
 from django.http import JsonResponse
 from django.db.models import Sum
@@ -28,6 +28,7 @@ import pandas as pd
 from django.db.models import F
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.html import strip_tags
 # Create your views here.
 def home(request):
   return render(request, 'home.html')
@@ -7587,15 +7588,35 @@ def sharegstr9ToEmail(request):
 def sales_report(request):
   id=request.user.id
   staff =  staff_details.objects.get(id=id)
-  allmodules= modules_list.objects.get(company=staff.company,status='New')
   sale = salesorder.objects.filter(comp=staff.company)
+  c=sale.count()
+  s=0
+  for i in sale:
+    s += float(i.grandtotal)
   content={
     'sale':sale,
     'staff':staff,
-    'allmodule':allmodules
+    'c':c,
+    's':s,
   }
   return render(request,'company/sale_report.html',content)
 def purchase_report(request):
   return render(request,'company/purchase_report.html')
+def send_sale_report_via_mail(request):
+  if request.method == 'POST':
+        table_content = request.POST.get('table_content', '')
+        email=request.POST['email_id']
+        mess=request.POST['message_m']
+        emails_list = [email.strip() for email in email.split(',')]
+        send_mail(
+        mess,
+        strip_tags(table_content),
+        settings.EMAIL_HOST_USER  # Replace with your sender email address
+        [emails_list],  # Replace with the recipient email address
+        fail_silently=False,
+        
+        )
+        
+  return redirect('sales_report')
 #end
     

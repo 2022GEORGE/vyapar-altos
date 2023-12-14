@@ -546,7 +546,7 @@
             });
         });
         $(document).on('click', '.btn_print', function (event) {
-            $('#myTable').removeClass('table-hover');
+            $('#myTable1').removeClass('table-hover');
             var printContents = document.getElementById("content-div").innerHTML;
             var originalContents = document.body.innerHTML;
 
@@ -556,7 +556,7 @@
 
             document.body.innerHTML = originalContents;
 
-            $('#myTable').addClass('table-hover');
+            $('#myTable1').addClass('table-hover');
 
         });
     });
@@ -631,5 +631,6 @@
         XLSX.writeFile(wb, 'saleorder.xlsx');
     }
 </script>
+
 
 {% endblock content %}

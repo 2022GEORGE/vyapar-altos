@@ -2,10 +2,7 @@
 {% block content %}
 {% load static %}
 <style>
-    .bar .left {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
+    
 </style>
 
 
@@ -16,51 +13,87 @@
         {% if sale %}
         <div class="col-sm-12 col-lg-12 ">
             <div id="item_get_detail_target">
-                <div class="row m-0" style="height:20%">
+                <div class="row m-2" style="height:20%">
                     <div class="card bg-light bs p-3 mb-3">
-                        <!-- <center class="mt-3">
-                            <h2 class="text-center"><b
-                                    style="color: rgb(255, 255, 255);text-shadow: 2px 2px 4px #000000; margin-bottom: 40px;">SALE
-                                    ORDER</b></h2>
-
-                        </center> -->
                         <div class="bar d-flex justify-content-between">
-                            <div class=" left">
+                            <div class=" card-group">
                                 <div class="px-2">
                                     <label style="text-align:left ">From</label><br>
                                     <input name="FromDate" class="inputdate form-control" type="date" id="in1">
                                 </div>
-
                                 <div class="px-2">
                                     <label style="text-align:left ">To</label><br>
-                                    <input name="ToDate" type="date" class="inputdate form-control" id="in2">
+                                    <input name="FromDate" class="inputdate form-control" type="date" id="in1">
                                 </div>
-
                             </div>
-                            <div class="right mt-3">
-                                <a class="btn p-0 ps-2 pe-2 ms-2" title="export to excel"
-                                    onclick="exportAsExcel()"><span><img width="25px"
-                                            src="{% static 'assets/excel2.png' %}" alt="no img"></span></a>
-                                            <a class="btn p-0 ps-2 pe-2 ms-2" title="export to excel"
-                                            onclick="exportAsPDF()"><span><img width="25px"
-                                                    src="{% static 'assets/excel2.png' %}" alt="no img"></span></a>
-
-                                <label for="file-input" title="impot excel" class="btn p-0 ps-2 pe-2 ms-2"
-                                    type="button"><span><img width="25px" src="{% static 'assets/import.png' %}"
-                                            alt="no img"></span></label>
-                                <input id="file-input" type="file" name="file" style="display:none;"
-                                    onchange="uploadFile()">
-
-                                <a class="btn btn_print p-0 ps-2 pe-2 ms-2" title="print"><span><img width="25px"
-                                            src="{% static 'assets/printer1.png' %}" alt="no img"></span></a>
+                            <div class=" card-group">
+                                <div class="right mt-3">
+                                    <a class="btn " title="export to excel"onclick="exportAsExcel()">
+                                        <span><img width="25px"src="{% static 'assets/excel2.png' %}" alt="no img"></span>
+                                    </a>
+                                    <a class="btn " title="export to PDF"onclick="exportAsPDF()">
+                                        <span><img width="25px"src="{% static 'assets/PDF_icon.png' %}" alt="no img"></span>
+                                    </a>
+                                    <a class="btn  btn_print  " title="PRINT"onclick="()">
+                                        <span><img width="25px"src="{% static 'assets/printer1.png' %}" alt="no img"></span>
+                                    </a>
+                                    <a class="btn  p-0 ps-2" title="share">
+                                        <div class="btn-group dropleft">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa-solid fa-share"></i>
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">
+                                                    Share Via mail
+                                                  </button>
+                                                  <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">
+                                                 Via Whatsapp
+                                                  </button>
+                                            </div>
+                                          </div>
+                                    </a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
 
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Send template via mail</h5>
+                    
+                    </div>
+                    <div class="modal-body">
+                      <form method="post" action="{% url 'send_sale_report_via_mail' %}"    id="email">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <lable>Mail id</lable>
+                            <input type="mail" name='mail' required class="form-control" id="message">
+                        </div>
+                        <div class="form-group">
+                            <lable>Message</lable>
+                            <input type="text"  name="message" required class="form-control">
+                        </div>
+                        <button type="submit" class=" btn  btn-primary mx-auto d-block">Submit</button>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary "  data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+                        
         <script>
             function getCookie(name) {
                 var cookieValue = null;
@@ -118,19 +151,17 @@
 
                     <div class="col-sm-12 col-lg-2 pt-1">
 
-                        <div class="d-flex mt-5">
-                            <a class="btn btn-secondary" href="{% url 'saleorder_create' %}"><i class="fa fa-plus"
-                                    aria-hidden="true"></i> CREATE SALE
-                                ORDER</a>
-
-                        </div>
+                        
                     </div>
                     <div class="mt-3" id="content-div">
+                        <div class="table-responsive">
                         <table id="myTable"
-                            class="table table-bordered table-info table-hover  tb table-responsive w-100">
+                            class="table table-bordered table-info table-hover  tb  w-100">
+                            <h3 class="text-center mb-7">{{staff.company.company_name}}</h3>
                             <thead>
                                 <th>#</th>
                                 <th class="text-center fs-2">
+                                    PARTY&nbsp;NAME
                                     <div class="dropdown export-hide">
                                         <div class=" dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fas fa-filter filter-button"></i>
@@ -144,9 +175,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    PARTY NAME
+                                   
                                 </th>
                                 <th class="text-center fs-2">
+                                    NUMBER
                                     <div class="dropdown">
                                         <div class=" dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fas fa-filter filter-button"></i>
@@ -160,7 +192,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    NUMBER
+                                   
                                     
                                 </th>
                                 <th class="text-center fs-2">DATE 
@@ -226,6 +258,32 @@
 
                                     </div>
                                 </th>
+
+                                <th class="text-center fs-2">
+                                    Advance<div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                                    aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
+
+
+                                    <div class="dropdown-menu "
+                                    style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
+
+                                    <div class="p-2 filter-dropdown">
+                                        <label for="">Equel to:</label>
+
+                                        <input type="text" class="form-control filter-value border-secondary">
+                                        
+                                            <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
+                                            <button
+                                                class="btn clear-filter btn-sm  btn-secondary">Clear</button>
+                                        
+
+                                    </div>
+
+                                </div>
+
+
+                                </th>
+
                                 <th class="text-center fs-2">BALANCE<div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                                     aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
@@ -292,7 +350,7 @@
                                
                                 
                                 
-                                <th class="text-center p-0 m-0"></th>
+                               
                             </thead>
                             <tbody>
                                 {% for i in sale %}
@@ -303,44 +361,24 @@
                                     <td>{{i.orderdate}}</td>
                                     <td>{{i.duedate}}</td>
                                     <td>{{i.grandtotal}}</td>
+                                    <td>{{i.paid}}</td>
                                     <td>{{i.balance}}</td>
                                     <td>sale order</td>
                                     <td
                                         class="{% if i.status == 'open' %}text-primary{% else %}text-success{% endif %} text-center">
                                         {{i.status}}</td>
-                                    <td>
-                                        <div class="btn-group mb-1">
-                                            <button style="border: none;background: none;" type="button"
-                                                class="ropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span class="fa fa-ellipsis-v text-dark fs-1 ps-2"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item fw-bold tb"
-                                                        href="{% url 'saleorder_view' i.id %}"><span
-                                                            class="fa fa-eye pe-2 tg text-primary"></span> View</a>
-                                                </li>
-                                                <li><a class="dropdown-item fw-bold tb"
-                                                        href="{% url 'saleorder_edit' i.id %}"><span
-                                                            class="fa fa-edit pe-2 tg text-secondary"></span>
-                                                        Edit</a></li>
-
-                                                <li><a class="dropdown-item fw-bold tb" type="button"
-                                                        href="{% url 'delete_saleorder' i.id %}"><span
-                                                            class="fa fa-trash-alt tr text-danger"
-                                                            style="padding-inline-start: 0.1rem;padding-inline-end:0.7rem ;"></span>
-                                                        Delete</a></li>
-                                                <li><a class="dropdown-item fw-bold tb"
-                                                        href="{% url 'sales_transaction' i.id %}"><span
-                                                            class="fa fa-history pe-2 tg text-success"></span>History</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                        <div>
+                            <p>TOTAL Amount:{{s}}</p>
+                            <p>TOTAL Order:{{c}}</p>
+                        </div>
+
+
+                    </div>
                         <table class="table" id="myTable1" style="display: none;">
                             <thead>
                                 <th>#</th>
@@ -349,6 +387,7 @@
                                 <th>DATE</th>
                                 <th>DUE DATE</th>
                                 <th>TOTAL</th>
+                                <th>Advance</th>
                                 <th>BALANCE</th>
                                 <th>TYPE</th>
                                 <th>STATUS</th>
@@ -362,6 +401,7 @@
                                     <td>{{i.orderdate}}</td>
                                     <td>{{i.duedate}}</td>
                                     <td>{{i.grandtotal}}</td>
+                                    <td>{{i.paid}}</td>
                                     <td>{{i.balance}}</td>
                                     <td>sale order</td>
                                     <td>{{i.status}}</td>
@@ -434,6 +474,16 @@
                 </div>
             </div>
         </div>
+
+        
+
+
+
+
+
+
+
+
         {% endif %}
     </div>
 </div>
@@ -534,28 +584,10 @@ function exportAsExcel() {
     const table = document.getElementById('myTable1'); // Replace 'myTable' with your table's ID
     const wb = XLSX.utils.table_to_book(table);
 
-    XLSX.writeFile(wb, 'saleorder.xlsx');
+    XLSX.writeFile(wb, 'salereport.xlsx');
 }
 </script>
-function exportAsPDF() {
-    console.log("myTable1");
 
-    // Use the correct selector to get the element by ID
-    const table = document.getElementById('myTable1'); // Replace 'myTable1' with your table's ID
-
-    // Check if the table exists
-    if (table) {
-        // Create a new jsPDF instance
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
-
-        // Convert the table to PDF and save it
-        pdf.autoTable({ html: table });
-        pdf.save('saleorder.pdf');
-    } else {
-        console.error("Table with ID 'myTable1' not found");
-    }
-}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js" integrity="sha512-8+n4PSpp8TLHbSf28qpjRfu51IuWuJZdemtTC1EKCHsZmWi2O821UEdt6S3l4+cHyUQhU8uiAAUeVI1MUiFATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -573,11 +605,16 @@ function exportAsPDF() {
 
         // Convert the table to PDF and save it
         pdf.autoTable({ html: table });
-        pdf.save('saleorder.pdf');
+        pdf.save('salereport.pdf');
     } else {
         console.error("Table with ID 'myTable1' not found");
     }
 }
 
+
 </script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}
