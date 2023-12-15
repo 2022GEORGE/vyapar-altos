@@ -7601,22 +7601,46 @@ def sales_report(request):
   }
   return render(request,'company/sale_report.html',content)
 def purchase_report(request):
-  return render(request,'company/purchase_report.html')
+  id=request.user.id
+  staff=staff_details.objects.get(id=id)
+  purchase_data=PurchaseBill.objects.filter(company=staff.company)
+  debit_note=purchasedebit.objects.filter(company=staff.company)
+  paid = unpaid = total=0
+  for i in purchase_data:
+    paid +=float(i.advance)
+    unpaid +=float(i.balance)
+    total +=float(i.grandtotal)
+  content={
+    'bill':purchase_data,
+    'debit':debit_note,
+    'staff':staff,
+    'paid':paid,
+    'unpaid':unpaid,
+    'total':total
+  }
+  return render(request,'company/purchase_report.html',content)
 def send_sale_report_via_mail(request):
   if request.method == 'POST':
-        table_content = request.POST.get('table_content', '')
-        email=request.POST['email_id']
-        mess=request.POST['message_m']
-        emails_list = [email.strip() for email in email.split(',')]
-        send_mail(
-        mess,
-        strip_tags(table_content),
-        settings.EMAIL_HOST_USER  # Replace with your sender email address
-        [emails_list],  # Replace with the recipient email address
-        fail_silently=False,
-        
-        )
-        
+      emails=request.POST['email']
+      mess=request.POST['message']
+      id=request.user.id
+      staff =  staff_details.objects.get(id=id)
+      sale = salesorder.objects.filter(comp=staff.company)
+      c=sale.count()
+      s=0
+      for i in sale:
+        s += float(i.grandtotal)
+      content={'sale':sale,'s':s,'c':c}
+      template_path = 'company/share_salereport_mail.html'
+      template = get_template(template_path)
+      html  = template.render(content)
+      result = BytesIO()
+      pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+      pdf = result.getvalue()
+      email = EmailMessage(mess, from_email=settings.EMAIL_HOST_USER, to=[email])
+      email.attach('salereport.pdf', pdf, "application/pdf")
+      email.send(fail_silently=False)
+  msg = messages.success(request, 'Sale report file has been shared via email successfully..!')
   return redirect('sales_report')
 #end
     

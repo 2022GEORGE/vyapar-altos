@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="my-5 page" size="A4">
+        <div class="col-md-4">
+            <h3>
+                <center class="text-black"><b>sales report</b></center>
+            </h3>
+        </div>
+    <table class="table" id="myTable1" style="text-align: center;">
+        <thead style="background-color: rgba(82, 82, 226, 0.808);">
+            <th>#</th>
+            <th>PARTY NAME</th>
+            <th>NUMBER</th>
+            <th>DATE</th>
+            <th>DUE DATE</th>
+            <th>TOTAL</th>
+            <th>Advance</th>
+            <th>BALANCE</th>
+            <th>TYPE</th>
+            <th>STATUS</th>
+        </thead>
+        <tbody>
+            {% for i in sale %}
+            <tr>
+                <td>{{forloop.counter }}</td>
+                <td>{{i.partyname}}</td>
+                <td>{{i.orderno}}</td>
+                <td>{{i.orderdate}}</td>
+                <td>{{i.duedate}}</td>
+                <td>{{i.grandtotal}}</td>
+                <td>{{i.paid}}</td>
+                <td>{{i.balance}}</td>
+                <td>sale order</td>
+                <td>{{i.status}}</td>
+            </tr>
+                {% endfor %}
+        </tbody>
+        
+    </table>
+    <div>
+        <p>TOTAL Amount:{{s}}</p>
+        <p>TOTAL Order:{{c}}</p>
+    </div>
+    <section>
+        <div class="row container-fluid  p-2 m-0" style="margin-top: 4rem;">
+            <div class="col-md-6 col-sm-6 m-0 p-0"><label style="color: #000;"><b>Authorized
+                        Signature</b></label><span class="text-dark">_____________________</span></div>
+            <!-- <div class="col-sm-4 m-0 p-0 text-dark">________________________</div> -->
+            <div class="col-md-6 col-sm-6 m-0 p-0"></div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
