@@ -7621,26 +7621,55 @@ def purchase_report(request):
   return render(request,'company/purchase_report.html',content)
 def send_sale_report_via_mail(request):
   if request.method == 'POST':
-      emails=request.POST['email']
-      mess=request.POST['message']
-      id=request.user.id
-      staff =  staff_details.objects.get(id=id)
-      sale = salesorder.objects.filter(comp=staff.company)
-      c=sale.count()
-      s=0
-      for i in sale:
-        s += float(i.grandtotal)
-      content={'sale':sale,'s':s,'c':c}
-      template_path = 'company/share_salereport_mail.html'
-      template = get_template(template_path)
-      html  = template.render(content)
-      result = BytesIO()
-      pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-      pdf = result.getvalue()
-      email = EmailMessage(mess, from_email=settings.EMAIL_HOST_USER, to=[email])
-      email.attach('salereport.pdf', pdf, "application/pdf")
-      email.send(fail_silently=False)
-  msg = messages.success(request, 'Sale report file has been shared via email successfully..!')
+    emails=request.POST['email']
+    mess=request.POST['message']
+    id=request.user.id
+    staff =  staff_details.objects.get(id=id)
+    sale = salesorder.objects.filter(comp=staff.company)
+    c=sale.count()
+    s=0
+    for i in sale:
+      s += float(i.grandtotal)
+    content={'sale':sale,'s':s,'c':c}
+    template_path = 'company/share_salereport_mail.html'
+    template = get_template(template_path)
+    html  = template.render(content)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    pdf = result.getvalue()
+    email = EmailMessage(mess, from_email=settings.EMAIL_HOST_USER, to=[emails])
+    email.attach('salereport.pdf', pdf, "application/pdf")
+    email.send(fail_silently=False)
+    messages.success(request, 'Sale report file has been shared via email successfully..!')
+    return redirect('sales_report')
   return redirect('sales_report')
+def send_purchase_report_via_mail(request):
+  if request.method == 'POST':
+    emails=request.POST['email']
+    mess=request.POST['message']
+    id=request.user.id
+    staff =  staff_details.objects.get(id=id)
+    purchase_data=PurchaseBill.objects.filter(company=staff.company)
+    debit_note=purchasedebit.objects.filter(company=staff.company)
+    paid = unpaid = total=0
+    content={
+      'bill':purchase_data,
+      'debit':debit_note,
+      'staff':staff,
+    }
+    template_path = 'company/share_purchase_report_mail.html'
+    template = get_template(template_path)
+    html  = template.render(content)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    pdf = result.getvalue()
+    email = EmailMessage(mess, from_email=settings.EMAIL_HOST_USER, to=[emails])
+    email.attach('purchasereport.pdf', pdf, "application/pdf")
+    email.send(fail_silently=False)
+    messages.success(request, 'purchase report file has been shared via email successfully..!')
+    return redirect('purchase_report')
+  return redirect('purchase_report')
+def day_book_report(request):
+  return render(request,'company/day_book.html')
 #end
     

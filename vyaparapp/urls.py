@@ -333,6 +333,8 @@ urlpatterns = [
     path('sales_report',views.sales_report,name='sales_report'),
     path('purchase_report',views.purchase_report,name='purchase_report'),
     path('send_sale_report_via_mail',views.send_sale_report_via_mail,name='send_sale_report_via_mail'),
+    path('send_purchase_report_via_mail',views.send_purchase_report_via_mail,name='send_purchase_report_via_mail'),
+    path('day_book_report',views.day_book_report,name='day_book_report'),
     #End
     
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
