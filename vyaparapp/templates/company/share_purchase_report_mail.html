@@ -15,6 +15,7 @@
                 <center class="text-black"><b>purchase report</b></center>
             </h3>
         </div>
+       
         <table class="table1 table-bordered" style="border-color: black;">
             <tbody>
                 <tr style="font-weight: bolder">
@@ -24,9 +25,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <h5 class="text-info" style="font-weight: bold; color: rgb(49, 49, 138);">
-                            {{staff.company.company_name}}</h5>
-                        <p class="address" style="font-weight: bold;color: #000;"> {{cmp.address}}<br>
+                       
+                        <p class="address" style="font-weight: bold;color: #000;"> 
+                            <h5 class="text-info" style="font-weight: bold; color: rgb(49, 49, 138);">
+                            {{staff.company.company_name}},</h5>
+                            {{cmp.address}}<br>
                             {{ staff.company.address }} <br>
                             {{staff.company.city}},
                             {{staff.company.state}}
@@ -47,11 +50,11 @@
                 <th>DATE</th>
                 <th>NUMBER</th>
                 <th>PARTY NAME</th>
-                <th>TRANSACTION</th>
-                <th>TOTAL</th>
-                <th>Advance</th>
-                <th>BALANCE</th>
                 <th>TYPE</th>
+                <th>Payment TYPE</th>
+                <th>TOTAL</th>
+                <th>BALANCE</th>
+                
 
             </thead>
             <tbody>
@@ -61,10 +64,10 @@
                     <td>{{i.billno}}</td>
                     <td>{{i.party.party_name}}</td>
                     <td>bill</td>
-                    <td>{{i.grandtotal}}</td>
-                    <td>{{i.advance}}</td>
-                    <td>{{i.balance}}</td>
                     <td>{{i.pay_method}}</td>
+                    <td>{{i.grandtotal}}</td>
+                    <td>{{i.balance}}</td>
+                   
                 </tr>
                 {% endfor %}
                 {% for i in debit %}
@@ -73,11 +76,11 @@
                     <td>{{i.billno}}</td>
                     <td>{{i.party.party_name}}</td>
                     <td>debit</td>
-                    <td>{{i.grandtotal}}</td>
-                    <td>{{i.paid_amount}}</td>
-                    <td>{{i.balance_amount}}</td>
                     <td>{{i.payment_type}}</td>
                     
+                    <td>{{i.grandtotal}}</td>
+                    <td>{{i.balance_amount}}</td>
+                   
                 {% endfor %}
             </tbody>
             

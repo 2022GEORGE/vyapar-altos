@@ -7589,6 +7589,7 @@ def sales_report(request):
   id=request.user.id
   staff =  staff_details.objects.get(id=id)
   sale = salesorder.objects.filter(comp=staff.company)
+  print(sale)
   c=sale.count()
   s=0
   for i in sale:
@@ -7599,7 +7600,8 @@ def sales_report(request):
     'c':c,
     's':s,
   }
-  return render(request,'company/sale_report.html',content)
+  return render(request,'company/sale_order_report.html',content)
+#--------------------------------------------------------------------
 def purchase_report(request):
   id=request.user.id
   staff=staff_details.objects.get(id=id)
@@ -7619,6 +7621,7 @@ def purchase_report(request):
     'total':total
   }
   return render(request,'company/purchase_report.html',content)
+#-------------------------------------------------------------------------------
 def send_sale_report_via_mail(request):
   if request.method == 'POST':
     emails=request.POST['email']
@@ -7643,6 +7646,7 @@ def send_sale_report_via_mail(request):
     messages.success(request, 'Sale report file has been shared via email successfully..!')
     return redirect('sales_report')
   return redirect('sales_report')
+#------------------------------------------------------------------------------------
 def send_purchase_report_via_mail(request):
   if request.method == 'POST':
     emails=request.POST['email']
@@ -7669,7 +7673,8 @@ def send_purchase_report_via_mail(request):
     messages.success(request, 'purchase report file has been shared via email successfully..!')
     return redirect('purchase_report')
   return redirect('purchase_report')
+#-------------------------------------------------------------------------------
 def day_book_report(request):
-  return render(request,'company/day_book.html')
+  return render(request,'company/day_book_report.html')
 #end
     
