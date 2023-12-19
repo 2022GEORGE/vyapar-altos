@@ -24,11 +24,16 @@
     <div class="container-fluid">
 
 
-       {% if bill %}
+       
         <div class="col-sm-12 col-lg-12 ">
             <div id="item_get_detail_target">
+                
                 <div class="row m-2" style="height:20%">
                     <div class="card bg-light bs p-3 mb-3">
+                        <div class="card-group w-100 mx-auto d-block"> 
+                        <h3 style="text-align: center;">Purchase Report</h3>
+
+                        </div>
                         <div class="bar d-flex justify-content-between">
                             <div class=" card-group">
                                 <div class="px-2">
@@ -170,6 +175,9 @@
         </script>
 
         <div class="row pt-0 m-0">
+            <div class="col " style="text-align: end; margin-right:30px;"> <a class="mr-12" href="{% url 'companyreport' %}" style="text-align: right; font-size:xx-large; color: black;">
+                <i class="fa fa-times mt-2" aria-hidden="true"></i>
+            </a></div>
             <div class="card p-0 bg-light" style="min-height: 60vh;">
                 <div class="row m-0 p-0 pt-3">
                     <div class="col-sm-12 col-lg-3">
@@ -221,42 +229,54 @@
 
                                     </div>
                                 </th>
+
                                 <th class="text-center fs-2">
                                     Bill No
-                                     <div class="dropdown">
-                                         <div class=" dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="fas fa-filter filter-button"></i>
-                                         </div>
-                                         <div class="dropdown-menu" style="box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
-                                             <div class="p-2 filter-dropdown">
-                                                 <label for="">Equel to:</label>
-                                                 <input type="text" class="form-control filter-value border-secondary">
-                                                 <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
-                                                 <button class="btn clear-filter btn-sm btn-secondary">Clear</button>
-                                             </div>
-                                         </div>
-                                     </div>
-                                    
-                                     
-                                 </th>
+                                    <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                                        aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
+
+                                    <div class="dropdown-menu "
+                                        style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
+
+                                        <div class="p-2 filter-dropdown">
+                                            <label for="">Equel to:</label>
+
+                                            <input type="text" class="form-control filter-value border-secondary">
+                                            
+                                                <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
+                                                <button
+                                                    class="btn clear-filter btn-sm  btn-secondary">Clear</button>
+                                            
+
+                                        </div>
+
+                                    </div>
+                                </th>
+
 
                                 <th class="text-center fs-2">
                                     PARTY&nbsp;NAME
-                                    <div class="dropdown export-hide">
-                                        <div class=" dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fas fa-filter filter-button"></i>
-                                        </div>
-                                        <div class="dropdown-menu" style="box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
-                                            <div class="p-2 filter-dropdown">
-                                                <label for="">Equel to:</label>
-                                                <input type="text" class="form-control filter-value border-secondary">
+                                    <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                                        aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
+
+                                    <div class="dropdown-menu "
+                                        style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
+
+                                        <div class="p-2 filter-dropdown">
+                                            <label for="">Equel to:</label>
+
+                                            <input type="text" class="form-control filter-value border-secondary">
+                                            
                                                 <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
-                                                <button class="btn clear-filter btn-sm btn-secondary">Clear</button>
-                                            </div>
+                                                <button
+                                                    class="btn clear-filter btn-sm  btn-secondary">Clear</button>
+                                            
+
                                         </div>
+
                                     </div>
-                                   
                                 </th>
+
                                 
                                 <th class="text-center fs-2">TYPE
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
@@ -279,28 +299,29 @@
 
                                     </div>
                                 </th>
+
                                 <th class="text-center fs-2">Payment Type
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
-                                    aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
+                                        aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
-                                <div class="dropdown-menu "
-                                    style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
+                                    <div class="dropdown-menu "
+                                        style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
 
-                                    <div class="p-2 filter-dropdown">
-                                        <label for="">Equel to:</label>
+                                        <div class="p-2 filter-dropdown">
+                                            <label for="">Equel to:</label>
 
-                                        <input type="text" class="form-control filter-value border-secondary">
-                                        
-                                            <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
-                                            <button
-                                                class="btn clear-filter btn-sm  btn-secondary">Clear</button>
-                                        
+                                            <input type="text" class="form-control filter-value border-secondary">
+                                            
+                                                <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
+                                                <button
+                                                    class="btn clear-filter btn-sm  btn-secondary">Clear</button>
+                                            
+
+                                        </div>
 
                                     </div>
-
-                                </div>
-                                    
                                 </th>
+
                                
 
                                 <th class="text-center fs-2">Amount<div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
@@ -322,29 +343,30 @@
                                     </div>
 
                                 </div>
-                                    
-                                </th>
+                            </th>
+
                                 <th class="text-center fs-2">Balance
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
+                                    aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
-                                    <div class="dropdown-menu "
-                                        style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
+                                <div class="dropdown-menu "
+                                    style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
 
-                                        <div class="p-2 filter-dropdown">
-                                            <label for="">Equel to:</label>
+                                    <div class="p-2 filter-dropdown">
+                                        <label for="">Equel to:</label>
 
-                                            <input type="text" class="form-control filter-value border-secondary">
-                                            
-                                                <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
-                                                <button
-                                                    class="btn clear-filter btn-sm  btn-secondary">Clear</button>
-                                            
-
-                                        </div>
+                                        <input type="text" class="form-control filter-value border-secondary">
+                                        
+                                            <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
+                                            <button
+                                                class="btn clear-filter btn-sm  btn-secondary">Clear</button>
+                                        
 
                                     </div>
-                                </th>
+
+                                </div>
+                            </th>
+
                                 
                                 
                                 
@@ -372,10 +394,10 @@
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>debit</td>
-                                    <td>{{i.grandtotal}}</td>
-                                    <td>{{i.paid_amount}}</td>
-                                    <td>{{i.balance_amount}}</td>
                                     <td>{{i.payment_type}}</td>
+                                    <td>{{i.grandtotal}}</td>
+                                    <td>{{i.balance_amount}}</td>
+                                    
                                     
                                 {% endfor %}
 
@@ -385,7 +407,7 @@
 
 
                     </div>
-                    <div id="content" style="display: none;">
+                    <div id="content" style="display:none;">
                         <h4>Purchase Report</h4>
                         <h3 style="text-align: center;">{{staff.company.company_name}}</h3>
                         <table class="table table-bordered" id="myTable1" >
@@ -419,10 +441,10 @@
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>debit</td>
-                                    <td>{{i.grandtotal}}</td>
-                                    <td>{{i.paid_amount}}</td>
-                                    <td>{{i.balance_amount}}</td>
                                     <td>{{i.payment_type}}</td>
+                                    <td>{{i.grandtotal}}</td>
+                                    <td>{{i.balance_amount}}</td>
+
                                     
                                 {% endfor %}
                             </tbody>
@@ -437,37 +459,7 @@
        
              </div>
     </div>
-    {% else %}
-    <div class="p-5 text-center" style="display: flex;justify-content: center;">
-        <div class="card " style="background-color: white;width:50rem;box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.249);">
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <img height="500vw" src="{% static 'images/emptybill.png' %}" class="card-img" alt="no img">
-                    <!-- <div class="card-img-overlay">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small>Last updated 3 mins ago</small></p>
-                    </div> -->
-                </div>
-                <div class="col-sm-12 col-md-6 ps-4 pe-4">
-                    <div class="p-1 rounded" style="border: 1px solid rgba(0, 0, 0, 0);border-bottom: none;">
-                        <p style="margin-bottom: 4rem;"></p>
-                        <img width="100vw" src="{% static 'images/fav.png' %}" alt="no img">
-                        <p></p>
-                        <h1 style="font-weight:900;color:rgba(0, 0, 0, 0.644);font-size: 1.5rem;">VYAPAR</h1>
-                        <!-- <h5 class="card-title">Card title</h5> -->
-                        <p style="margin-bottom: 1.5rem;"></p>
-                        <p class="card-text">Welcome to vyapar, We're committed to providing a seamless and secure online marketplace for buyers and sellers. Our platform offers a range of features.</p>
-                        <p style="color: rgb(0, 89, 10);font-weight: light;" class="card-text">You can manage all you purchase bills here.</p>
-                        <p class="mt-4"></p>
-                        <a class="btn btn-lg btn-info btn-gradient" href="{% url 'add_purchasebill' %}">Add Your First Purchase Bill</a>
-                        <p style="margin-bottom: 4rem;"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
+   
 </div>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
@@ -514,6 +506,41 @@
             // Close the filter dropdown
             // $(this).closest('.filter-dropdown').hide();
         });
+
+        $('.apply-filter').on('click', function () {
+            const $table = $('#myTable1');
+            const columnIndex = $(this).closest('th').index();
+            const filterValue = $(this).siblings('.filter-value').val().trim();
+            console.log("=============================+++++++++++++++");
+            console.log(filterValue)
+
+            $table.find('tbody tr').hide(); // Hide all rows
+            console.log("hide");
+            applyEqualToFilter($table, columnIndex, filterValue);
+
+            // Close the filter dropdown
+            // $(this).closest('.filter-dropdown').hide();
+        });
+
+        function applyEqualToFilter($table, columnIndex, filterValue) {
+            console.log("filter");
+            $table.find(`tbody tr td:nth-child(${columnIndex + 1})`).each(function () {
+                const cellValue = $(this).text().trim();
+                if (cellValue === filterValue) {
+                    $(this).parent().show();
+                    console.log(this)
+                }
+            });
+        }
+
+        $('.clear-filter').on('click', function () {
+            $('#myTable tbody tr').show();
+            $(this).siblings('.filter-value').val('');
+
+            // Close the filter dropdown
+            // $(this).closest('.filter-dropdown').hide();
+        });
+
     });
 </script>
 
@@ -527,6 +554,9 @@ jQuery(document).ready(function ($) {
     $("#search_input1").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#myTable tbody tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+        $("#myTable1 tbody tr").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
@@ -547,7 +577,7 @@ jQuery(document).ready(function ($) {
 });
 
 var table = document.getElementById("myTable");
-
+var table2=document.getElementById("myTable1");
 var fromDate;
 $('#in1').on('change', function () {
     fromDate = $(this).val();
@@ -557,18 +587,22 @@ $('#in1').on('change', function () {
     var startDate = new Date(document.getElementById("in1").value);
     var endDate = new Date(document.getElementById("in2").value);
     var rows = table.getElementsByTagName("tr")
+    var prow=table2.getElementsByTagName("tr")
 
     console.log(startDate);
     for (var i = 1; i < rows.length; i++) {
         var row = rows[i];
+        var prow2 = prow[i];
         var dateCell = row.cells[0];
         var rowDate = new Date(dateCell.textContent);
 
         if ((rowDate >= startDate) || (rowDate <= endDate && rowDate >= startDate)) {
             row.style.display = "";
+            prow2.style.display ="";
 
         } else {
             row.style.display = "none";
+            prow2.style.display ="none";
 
         }
     }
@@ -589,16 +623,20 @@ $('#in2').on('change', function () {
     var startDate = new Date(document.getElementById("in1").value);
     var endDate = new Date(document.getElementById("in2").value);
     var rows = table.getElementsByTagName("tr");
+    var prow =table2.getElementsByTagName("tr")
 
     for (var i = 1; i < rows.length; i++) {
         var row = rows[i];
+        var prow2 =prow[i];
         var dateCell = row.cells[0];
         var rowDate = new Date(dateCell.textContent);
         if (rowDate <= endDate && rowDate >= startDate) {
             row.style.display = "";
+            prow2.style.display = "";
 
         } else {
             row.style.display = "none";
+            prow2.style.display = "none";
 
         }
     }
@@ -619,6 +657,7 @@ function exportAsExcel() {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js" integrity="sha512-8+n4PSpp8TLHbSf28qpjRfu51IuWuJZdemtTC1EKCHsZmWi2O821UEdt6S3l4+cHyUQhU8uiAAUeVI1MUiFATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.js"></script>
 <script>
     function exportAsPDF() {
     console.log("myTable1");
@@ -626,17 +665,8 @@ function exportAsExcel() {
     // Use the correct selector to get the element by ID
     const table = document.getElementById('myTable1'); // Replace 'myTable1' with your table's ID
 
-    // Check if the table exists
-    if (table) {
-        // Create a new jsPDF instance
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
-
-        // Convert the table to PDF and save it
-        pdf.autoTable({ html: table });
-        pdf.save('purchasereport.pdf');
-    } else {
-        console.error("Table with ID 'myTable1' not found");
+    var opt{
+        'margin':1,
     }
 }
 

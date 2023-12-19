@@ -26,7 +26,7 @@
     <div class="container-fluid">
 
 
-       {% if sale %}
+     
         <div class="col-sm-12 col-lg-12 ">
             <div id="item_get_detail_target">
                 <div class="row m-2" style="height:20%">
@@ -144,22 +144,28 @@
 
             }
         </script>
-
         <div class="row pt-0 m-0">
+           <div class="col " style="text-align: end; margin-right:20px;"> <a class="mr-12" href="{% url 'companyreport' %}" style="text-align: right; font-size:xx-large; color: black;">
+                <i class="fa fa-times mt-2" aria-hidden="true"></i>
+            </a></div>
             <div class="card p-0 bg-light" style="min-height: 60vh;">
                 <div class="row m-0 p-0 pt-3">
+                    
                     <div class="col-sm-12 col-lg-3">
-                        <p class="tb fw-bolder pt-2">SALE Report</p>
+                        <p class="tb fw-bolder pt-2">SALE ORDER</p>
                         <div class="pt-2">
                             <div class="position-relative">
                                 <div class="position-absolute" style="margin-top:0.4rem;margin-left: 0.5rem;">
                                     <span class="fa fa-search fs-5 text-info"></span>
+                                    
                                 </div>
                             </div>
                             <input id="search_input1" style="padding-inline-start: 2rem;"
                                 class="w-100 border-secondary text-dark pt-1 pb-1 rounded" type="text"
                                 placeholder=" search here..">
+                                
                         </div>
+                      
                     </div>
                     <div class="col-sm-12 col-lg-7">
 
@@ -195,22 +201,26 @@
                                 </th>
                                 <th class="text-center fs-2">
                                    Order Number
-                                    <div class="dropdown">
-                                        <div class=" dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fas fa-filter filter-button"></i>
-                                        </div>
-                                        <div class="dropdown-menu" style="box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
-                                            <div class="p-2 filter-dropdown">
-                                                <label for="">Equel to:</label>
-                                                <input type="text" class="form-control filter-value border-secondary">
-                                                <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
-                                                <button class="btn clear-filter btn-sm btn-secondary">Clear</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-                                    
-                                </th>
+                                   <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                                   aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
+
+                               <div class="dropdown-menu "
+                                   style="box-shadow:  2px 2px 10px 3px rgba(0, 0, 0, 0.397);">
+
+                                   <div class="p-2 filter-dropdown">
+                                       <label for="">Equel to:</label>
+
+                                       <input type="text" class="form-control filter-value border-secondary">
+                                       
+                                           <button class="btn apply-filter btn-sm btn-secondary">Apply</button>
+                                           <button
+                                               class="btn clear-filter btn-sm  btn-secondary">Clear</button>
+                                       
+
+                                   </div>
+
+                               </div>
+                           </th>
                                 <th class="text-center fs-2">PARTY&nbsp;NAME
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
@@ -321,7 +331,7 @@
                                 </div>
                                     
                                 </th>
-                                <th class="text-center fs-2">Blance
+                                <th class="text-center fs-2">Balance
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
@@ -363,7 +373,7 @@
                         </table>
                         <div>
                             <p>TOTAL Amount:{{s}}</p>
-                            <p>TOTAL Order:{{c}}</p>
+                            <p>TOTAL Count:{{c}}</p>
                         </div>
 
 
@@ -407,31 +417,10 @@
         </div>
         
          </div>
-         {% else %}
+         
    </div>
-   <div class="row empty mx-2">
-    <div class="card bg-light" style="justify-content: center;align-items: center; padding: 5vh;">
-        <div class="text-center mb-3">
+ 
 
-        </div>
-        <div class="emptyimg">
-
-
-            <img class="img-fluid" src="{% static 'images/supermarketimg3.png' %}" alt="" width="250em">
-            <div class="text-center ">
-
-
-            </div>
-        </div>
-        <div class="text-center mt-3">
-
-            <h5 class="text-info">Create sale orders & convert them to sale invoice instantly.</h5>
-            <a class="btn btn-secondary fs-2 mt-3" href="{% url 'saleorder_create' %}"><i class="fa fa-plus"
-                    aria-hidden="true"></i> ADD FIRST SALE ORDER</a>
-        </div>
-    </div>
-</div>
-{% endif %}
 </div>
 
 <script>
@@ -444,6 +433,9 @@
         $("#search_input1").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $("#myTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+            $("#myTable1 tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
         });
@@ -464,6 +456,7 @@
     });
 
     var table = document.getElementById("myTable");
+    var table2=document.getElementById("myTable1");
 
     var fromDate;
     $('#in1').on('change', function () {
@@ -474,18 +467,22 @@
         var startDate = new Date(document.getElementById("in1").value);
         var endDate = new Date(document.getElementById("in2").value);
         var rows = table.getElementsByTagName("tr")
+        var prow=table2.getElementsByTagName("tr")
 
         console.log(startDate);
         for (var i = 1; i < rows.length; i++) {
             var row = rows[i];
-            var dateCell = row.cells[3];
+            var prow2 = prow[i];
+            var dateCell = row.cells[0];
             var rowDate = new Date(dateCell.textContent);
 
             if ((rowDate >= startDate) || (rowDate <= endDate && rowDate >= startDate)) {
                 row.style.display = "";
+                prow2.style.display ="";
 
             } else {
                 row.style.display = "none";
+                prow2.style.display ="none";
 
             }
         }
@@ -505,17 +502,21 @@
         })
         var startDate = new Date(document.getElementById("in1").value);
         var endDate = new Date(document.getElementById("in2").value);
-        var rows = table.getElementsByTagName("tr");
+        var rows = table.getElementsByTagName("tr")
+        var prow=table2.getElementsByTagName("tr")
 
         for (var i = 1; i < rows.length; i++) {
             var row = rows[i];
-            var dateCell = row.cells[3];
+            var prow2 = prow[i];
+            var dateCell = row.cells[0];
             var rowDate = new Date(dateCell.textContent);
             if (rowDate <= endDate && rowDate >= startDate) {
                 row.style.display = "";
+                prow2.style.display ="";
 
             } else {
                 row.style.display = "none";
+                prow2.style.display ="none";
 
             }
         }

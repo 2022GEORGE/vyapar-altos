@@ -7586,7 +7586,7 @@ def sharegstr9ToEmail(request):
 #George===================================================
 
 def sales_report(request):
-  id=request.user.id
+  id=request.session.get('staff_id')
   staff =  staff_details.objects.get(id=id)
   sale = salesorder.objects.filter(comp=staff.company)
   print(sale)
@@ -7603,7 +7603,7 @@ def sales_report(request):
   return render(request,'company/sale_order_report.html',content)
 #--------------------------------------------------------------------
 def purchase_report(request):
-  id=request.user.id
+  id=request.session.get('staff_id')
   staff=staff_details.objects.get(id=id)
   purchase_data=PurchaseBill.objects.filter(company=staff.company)
   debit_note=purchasedebit.objects.filter(company=staff.company)
@@ -7626,14 +7626,14 @@ def send_sale_report_via_mail(request):
   if request.method == 'POST':
     emails=request.POST['email']
     mess=request.POST['message']
-    id=request.user.id
+    id=request.session.get('staff_id')
     staff =  staff_details.objects.get(id=id)
     sale = salesorder.objects.filter(comp=staff.company)
     c=sale.count()
     s=0
     for i in sale:
       s += float(i.grandtotal)
-    content={'sale':sale,'s':s,'c':c}
+    content={'sale':sale,'s':s,'c':c,'staff':staff}
     template_path = 'company/share_salereport_mail.html'
     template = get_template(template_path)
     html  = template.render(content)
@@ -7651,7 +7651,7 @@ def send_purchase_report_via_mail(request):
   if request.method == 'POST':
     emails=request.POST['email']
     mess=request.POST['message']
-    id=request.user.id
+    id=request.session.get('staff_id')
     staff =  staff_details.objects.get(id=id)
     purchase_data=PurchaseBill.objects.filter(company=staff.company)
     debit_note=purchasedebit.objects.filter(company=staff.company)
