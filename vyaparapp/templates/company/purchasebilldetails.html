@@ -929,26 +929,11 @@
     $(document).ready(function ($) {
         $(document).on('click', '#pdflink', function (event) {
             event.preventDefault();
-            print1 = document.getElementById('whatToPrint1')
-            print2 = document.getElementById('whatToPrint2')
-            print3 = document.getElementById('whatToPrint3')
+            
             print4 = document.getElementById('slipdiv')
 
-            if (print1.style.display !== 'none'){
-                var element = document.getElementById('printdiv1') 
-            }
-
-            if (print2.style.display !== 'none'){
-                var element = document.getElementById('printdiv2') 
-            }
-
-            if (print3.style.display !== 'none'){
-                var element = document.getElementById('printdiv3') 
-            }
-
-            if (print4.style.display !== 'none'){
-                var element = document.getElementById('printslip') 
-            }
+           
+            var element = document.getElementById('printslip') 
 
             var opt =
             {

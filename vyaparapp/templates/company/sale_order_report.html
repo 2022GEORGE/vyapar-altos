@@ -356,7 +356,7 @@
                             <tbody>
                                 {% for i in sale %}
                                 <tr>
-                                    <td>{{i.orderdate}}</td>
+                                    <td>{{i.orderdate|date:'d-m-Y'}}</td>
                                     <td>{{i.orderno}}</td>
                                     <td>{{i.partyname}}</td>
                                     <td>{{i.duedate}}</td>
@@ -372,13 +372,14 @@
                             </tbody>
                         </table>
                         <div>
-                            <p>TOTAL Amount:{{s}}</p>
+                            Total Amount <p id="totalval"></p>
                             <p>TOTAL Count:{{c}}</p>
                         </div>
 
 
                     </div>
                     <div id="content" style="display: none;">
+                        <div id="content1">
                         <h4>sales Report</h4>
                         <table class="table table-bordered" id="myTable1" >
                             <h3 style="text-align: center;">{{staff.company.company_name}}</h3>
@@ -396,7 +397,7 @@
                             <tbody>
                                 {% for i in sale %}
                                 <tr>
-                                    <td>{{i.orderdate}}</td>
+                                    <td>{{i.orderdate|date:'d-m-Y'}}</td>
                                     <td>{{i.orderno}}</td>
                                     <td>{{i.partyname}}</td>
                                     <td>{{i.duedate}}</td>
@@ -410,6 +411,11 @@
                             </tbody>
                             
                         </table>
+                        <div>
+                            <p>TOTAL Amount:{{s}}</p>
+                            <p>TOTAL Count:{{c}}</p>
+                        </div>
+                    </div>
                     </div>
                     </div>
                 </div>
@@ -485,7 +491,7 @@
                 prow2.style.display ="none";
 
             }
-        }
+        }  calculatetotal()
 
 
 
@@ -519,7 +525,7 @@
                 prow2.style.display ="none";
 
             }
-        }
+        }  calculatetotal()
         // var tdate = new Date(toDate)
         // var options = { year: 'numeric', month: 'long', day: 'numeric' };
         // document.getElementById("d2").innerHTML = "  To  " + tdate.toLocaleDateString(undefined, options);
@@ -535,25 +541,25 @@
     }
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
 <script>
     function exportAsPDF() {
     console.log("myTable1");
 
     // Use the correct selector to get the element by ID
-    const table = document.getElementById('myTable1'); // Replace 'myTable1' with your table's ID
+    var element = document.getElementById('content1') 
 
-    // Check if the table exists
-    if (table) {
-        // Create a new jsPDF instance
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
-
-        // Convert the table to PDF and save it
-        pdf.autoTable({ html: table });
-        pdf.save('salereport.pdf');
-    } else {
-        console.error("Table with ID 'myTable1' not found");
-    }
+            var opt =
+            {
+                margin: 1,
+                filename: 'PurchaseBill_No'+ '{{pbill.billno}}' + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', }
+            };
+            html2pdf().set(opt).from(element).save();
+    
 }
 
 
@@ -605,7 +611,29 @@
   });
     {% endfor %}
    </script>
+<script>
+    calculatetotal()
 
+    function calculatetotal(){
+        var table = document.getElementById('myTable');
+        var rows = table.getElementsByTagName('tr');
+        ttotal = 0; 
+        c=0;
+        for (var i = 1; i < rows.length; i++) {
+            if(rows[i].style.display !='none'){
+                c=c+1;
+                var tcells = rows[i].getElementsByTagName('td')[5];
+                var ttextValue = tcells.textContent || tcells.innerText;
+                ttotal += parseFloat(ttextValue)
+            }
+        }
+        
+        document.getElementById('totalval').textContent = ttotal
+    
+        
+        
+    }
+</script>
 
 
 {% endblock %}

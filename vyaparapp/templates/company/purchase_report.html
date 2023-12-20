@@ -25,7 +25,7 @@
 
 
        
-        <div class="col-sm-12 col-lg-12 ">
+        <div class="col-sm-12 col-lg-12 " >
             <div id="item_get_detail_target">
                 
                 <div class="row m-2" style="height:20%">
@@ -79,21 +79,21 @@
                         <div class="d-flex">
                             <div class="bg-success  p-3 m-3  mr-3 ml-3 fs-3" style="border-radius: 20px;">
                                 <p style="margin-bottom: 5px;"> Paid</p>
-                                <p style="font-size:large;"> &#8377; {{paid}}<span id="paidval"></span></p>
+                                <p style="font-size:large;"> <span id="paidval"></span></p>
                             </div>
                             <div class="text-dark pt-5" >
                                 <i class="fa fa-plus border-dark " aria-hidden="true" style="color: black;"></i>
                             </div>
                             <div class="bg-warning  p-3 m-3  mr-3 ml-3  fs-3" style="border-radius:20px;">
                                 <p style="margin-bottom: 5px;"> Unpaid</p>
-                                <p style="font-size:large;"> &#8377; {{unpaid}}<span id="unpaidval"></span></p>
+                                <p style="font-size:large;"><span id="unpaidval"></span></p>
                             </div>
                             <div class="text-dark pt-5">
                                 <i class="fa-solid fa fa-equals" style="color: black;"></i>
                             </div>
                             <div class="bg-secondary p-3 m-3 mr-3 ml-3  fs-3" style="border-radius:20px;">
                                 <p style="margin-bottom: 5px;"> Total</p>
-                                <p style="font-size:large;"> &#8377;{{total}} <span id="totalval"></span></p>
+                                <p style="font-size:large;">  <span id="totalval"></span></p>
                             </div>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                             <h3 class="text-center mb-7">{{staff.company.company_name}}</h3>
                             <thead>
                                 
-                                <th class="text-center fs-2">DATE 
+                                <th class="text-center fs-2">Date
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
@@ -255,7 +255,7 @@
 
 
                                 <th class="text-center fs-2">
-                                    PARTY&nbsp;NAME
+                                    Party&nbsp;Name
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
@@ -278,7 +278,7 @@
                                 </th>
 
                                 
-                                <th class="text-center fs-2">TYPE
+                                <th class="text-center fs-2">Type
                                     <div class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i class="fas fa-filter filter-button"></i></div>
 
@@ -375,7 +375,7 @@
                             <tbody>
                                 {% for i in bill %}
                                 <tr>
-                                    <td>{{i.billdate}}</td>
+                                    <td>{{i.billdate| date:'d-m-Y'}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>bill</td>
@@ -390,7 +390,7 @@
                                 {% endfor %}
                                 {% for i in debit %}
                                 <tr>
-                                    <td>{{i.billdate}}</td>
+                                    <td>{{i.billdate| date:'d-m-Y'}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>debit</td>
@@ -408,10 +408,11 @@
 
                     </div>
                     <div id="content" style="display:none;">
+                        <div id="content1">
                         <h4>Purchase Report</h4>
                         <h3 style="text-align: center;">{{staff.company.company_name}}</h3>
-                        <table class="table table-bordered" id="myTable1" >
-                            <thead>
+                        <table class="table table-bordered" id="myTable1">
+                            <thead style="color: blue;">
                                 <th>DATE</th>
                                 <th>NUMBER</th>
                                 <th>PARTY NAME</th>
@@ -419,13 +420,11 @@
                                 <th>Payment Type</th>
                                 <th>Amount</th>
                                 <th>BALANCE</th>
-                             
-
                             </thead>
                             <tbody>
                                 {% for i in bill %}
                                 <tr>
-                                    <td>{{i.billdate}}</td>
+                                    <td style="width: auto;">{{i.billdate| date:'d-m-Y'}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>bill</td>
@@ -437,7 +436,7 @@
                                 {% endfor %}
                                     {% for i in debit %}
                                 <tr>
-                                    <td>{{i.billdate}}</td>
+                                    <td style="width: auto;">{{i.billdate| date:'d-m-Y'}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>debit</td>
@@ -451,6 +450,7 @@
                             
                         </table>
                     </div>
+                </div>
                     </div>
                 </div>
             </div>
@@ -606,7 +606,7 @@ $('#in1').on('change', function () {
 
         }
     }
-
+    calculatetotal()
 
 
     // var tdate = new Date(fromDate)
@@ -640,11 +640,13 @@ $('#in2').on('change', function () {
 
         }
     }
+    calculatetotal()
     // var tdate = new Date(toDate)
     // var options = { year: 'numeric', month: 'long', day: 'numeric' };
     // document.getElementById("d2").innerHTML = "  To  " + tdate.toLocaleDateString(undefined, options);
 
 })
+
 function exportAsExcel() {
     console.log("myTable1");
     $('in1').prop
@@ -655,22 +657,55 @@ function exportAsExcel() {
 }
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js" integrity="sha512-8+n4PSpp8TLHbSf28qpjRfu51IuWuJZdemtTC1EKCHsZmWi2O821UEdt6S3l4+cHyUQhU8uiAAUeVI1MUiFATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
 <script>
     function exportAsPDF() {
     console.log("myTable1");
 
     // Use the correct selector to get the element by ID
-    const table = document.getElementById('myTable1'); // Replace 'myTable1' with your table's ID
+    var element = document.getElementById('content1') 
 
-    var opt{
-        'margin':1,
-    }
+            var opt =
+            {
+                margin: 1,
+                filename: 'PurchaseBill_No'+ '{{pbill.billno}}' + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', }
+            };
+            html2pdf().set(opt).from(element).save();
+    
 }
 
 
+</script>
+<script>
+    calculatetotal()
+
+    function calculatetotal(){
+        var table = document.getElementById('myTable');
+        var rows = table.getElementsByTagName('tr');
+        tpaid = 0;
+        tunpaid = 0;
+        ttotal = 0; 
+        for (var i = 1; i < rows.length; i++) {
+            if(rows[i].style.display !='none'){
+
+                var ucells = rows[i].getElementsByTagName('td')[5];
+                var utextValue = ucells.textContent || ucells.innerText;
+                tunpaid += parseFloat(utextValue)
+
+                var tcells = rows[i].getElementsByTagName('td')[6];
+                var ttextValue = tcells.textContent || tcells.innerText;
+                ttotal += parseFloat(ttextValue)
+            }
+        }
+        document.getElementById('paidval').textContent = tunpaid-ttotal
+        document.getElementById('unpaidval').textContent = tunpaid
+        document.getElementById('totalval').textContent = ttotal
+    }
 </script>
 
 {% endblock %}
