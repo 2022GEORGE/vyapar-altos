@@ -31,6 +31,11 @@
             <div id="item_get_detail_target">
                 <div class="row m-2" style="height:20%">
                     <div class="card bg-light bs p-3 mb-3">
+                        <div class="card-group w-100 mx-auto d-block"> 
+                            <h2 style="color:red; text-align: center;">{{staff.company.company_name}}</h2>
+                            <h4 style="text-align: center;">Sales Order Report</h4>
+                           
+                            </div>
                         <div class="bar d-flex justify-content-between">
                             <div class=" card-group">
                                 <div class="px-2">
@@ -92,6 +97,10 @@
                         <div class="form-group">
                             <lable>Message</lable>
                             <input type="text"  name="message" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <lable>File</lable>
+                            <input type="file"  name="file" required class="form-control">
                         </div>
                         <button type="submit" class=" btn  btn-primary mx-auto d-block">Share</button>
                       </form>
@@ -373,14 +382,18 @@
                         </table>
                         <div>
                             Total Amount <p id="totalval"></p>
-                            <p>TOTAL Count:{{c}}</p>
+                            TOTAL Count:<p id="totalc">}</p>
                         </div>
 
 
                     </div>
                     <div id="content" style="display: none;">
                         <div id="content1">
-                        <h4>sales Report</h4>
+                            <h4 style="color:red; text-align: center;">{{staff.company.company_name}}</h4>
+                            <h2 style="text-align: center;">sales Order Report</h2>
+                            <p id="sdate" style="text-align: center;"></p>
+                            <p id="tdate" style="text-align: center;"></p>
+                       
                         <table class="table table-bordered" id="myTable1" >
                             <h3 style="text-align: center;">{{staff.company.company_name}}</h3>
                             <thead>
@@ -397,7 +410,7 @@
                             <tbody>
                                 {% for i in sale %}
                                 <tr>
-                                    <td>{{i.orderdate|date:'d-m-Y'}}</td>
+                                    <td>{{i.orderdate}}</td>
                                     <td>{{i.orderno}}</td>
                                     <td>{{i.partyname}}</td>
                                     <td>{{i.duedate}}</td>
@@ -455,9 +468,9 @@
             window.print();
 
             document.body.innerHTML = originalContents;
+            
 
             $('#myTable1').addClass('table-hover');
-
         });
     });
 
@@ -526,6 +539,9 @@
 
             }
         }  calculatetotal()
+        document.getElementById('sdaate').textContent =startDate
+        document.getElementById('tdate').textContent =endDate
+
         // var tdate = new Date(toDate)
         // var options = { year: 'numeric', month: 'long', day: 'numeric' };
         // document.getElementById("d2").innerHTML = "  To  " + tdate.toLocaleDateString(undefined, options);
@@ -538,6 +554,7 @@
         const wb = XLSX.utils.table_to_book(table);
 
         XLSX.writeFile(wb, 'saleorder.xlsx');
+        location.reload();
     }
 </script>
 
@@ -559,7 +576,7 @@
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', }
             };
             html2pdf().set(opt).from(element).save();
-    
+            
 }
 
 
@@ -595,7 +612,7 @@
         $('.clear-filter').on('click', function () {
             $('#myTable tbody tr').show();
             $(this).siblings('.filter-value').val('');
-
+            window.reload();
             // Close the filter dropdown
             // $(this).closest('.filter-dropdown').hide();
         });
@@ -629,6 +646,7 @@
         }
         
         document.getElementById('totalval').textContent = ttotal
+        document.getElementById('totalc').textContent =c
     
         
         

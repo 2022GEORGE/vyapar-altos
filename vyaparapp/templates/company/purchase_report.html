@@ -31,7 +31,9 @@
                 <div class="row m-2" style="height:20%">
                     <div class="card bg-light bs p-3 mb-3">
                         <div class="card-group w-100 mx-auto d-block"> 
-                        <h3 style="text-align: center;">Purchase Report</h3>
+                            <h2 style="color:red; text-align: center;">{{staff.company.company_name}}</h2>
+                        <h4 style="text-align: center;">Purchase Report</h4>
+                        
 
                         </div>
                         <div class="bar d-flex justify-content-between">
@@ -112,7 +114,7 @@
                     
                     </div>
                     <div class="modal-body">
-                      <form method="post" action="{% url 'send_purchase_report_via_mail' %}"    id="email">
+                      <form method="post" action="{% url 'send_purchase_report_via_mail' %}"    id="email" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
                             <lable>Mail id</lable>
@@ -121,6 +123,10 @@
                         <div class="form-group">
                             <lable>Message</lable>
                             <input type="text"  name="message" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <lable>Choose File</lable>
+                            <input type="file"  name="file" required class="form-control">
                         </div>
                         <button type="submit" class=" btn  btn-primary mx-auto d-block">Share</button>
                       </form>
@@ -205,7 +211,7 @@
                         <div class="table-responsive">
                         <table id="myTable"
                             class="table table-bordered table-info table-hover  tb  w-100">
-                            <h3 class="text-center mb-7">{{staff.company.company_name}}</h3>
+                            <h2 class="text-center mb-7">{{staff.company.company_name}}</h2>
                             <thead>
                                 
                                 <th class="text-center fs-2">Date
@@ -375,7 +381,7 @@
                             <tbody>
                                 {% for i in bill %}
                                 <tr>
-                                    <td>{{i.billdate| date:'d-m-Y'}}</td>
+                                    <td>{{i.billdate}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>bill</td>
@@ -390,10 +396,10 @@
                                 {% endfor %}
                                 {% for i in debit %}
                                 <tr>
-                                    <td>{{i.billdate| date:'d-m-Y'}}</td>
+                                    <td>{{i.billdate}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
-                                    <td>debit</td>
+                                    <td>debit note</td>
                                     <td>{{i.payment_type}}</td>
                                     <td>{{i.grandtotal}}</td>
                                     <td>{{i.balance_amount}}</td>
@@ -409,7 +415,31 @@
                     </div>
                     <div id="content" style="display:none;">
                         <div id="content1">
-                        <h4>Purchase Report</h4>
+                            
+                        <h2>Purchase Report</h2>
+                        <h4 style="color:red;">{{staff.company.company_name}}</h4>
+                        <div class="row mt-7" style="width: auto;" >
+                            <div class="d-flex">
+                                <div class="bg-success  p-3 m-3  mr-3 ml-3 fs-3" style="border-radius: 20px;">
+                                    <p style="margin-bottom: 5px;"> Paid</p>
+                                    <p style="font-size:large;"> <span id="paidval1"></span></p>
+                                </div>
+                                <div class="text-dark pt-5" >
+                                    <i class="fa fa-plus border-dark " aria-hidden="true" style="color: black;"></i>
+                                </div>
+                                <div class="bg-warning  p-3 m-3  mr-3 ml-3  fs-3" style="border-radius:20px;">
+                                    <p style="margin-bottom: 5px;"> Unpaid</p>
+                                    <p style="font-size:large;"><span id="unpaidval1"></span></p>
+                                </div>
+                                <div class="text-dark pt-5">
+                                    <i class="fa-solid fa fa-equals" style="color: black;"></i>
+                                </div>
+                                <div class="bg-secondary p-3 m-3 mr-3 ml-3  fs-3" style="border-radius:20px;">
+                                    <p style="margin-bottom: 5px;"> Total</p>
+                                    <p style="font-size:large;">  <span id="totalval1"></span></p>
+                                </div>
+                            </div>
+                        </div>
                         <h3 style="text-align: center;">{{staff.company.company_name}}</h3>
                         <table class="table table-bordered" id="myTable1">
                             <thead style="color: blue;">
@@ -424,7 +454,7 @@
                             <tbody>
                                 {% for i in bill %}
                                 <tr>
-                                    <td style="width: auto;">{{i.billdate| date:'d-m-Y'}}</td>
+                                    <td style="width: auto;">{{i.billdate}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
                                     <td>bill</td>
@@ -436,10 +466,10 @@
                                 {% endfor %}
                                     {% for i in debit %}
                                 <tr>
-                                    <td style="width: auto;">{{i.billdate| date:'d-m-Y'}}</td>
+                                    <td style="width: auto;">{{i.billdate}}</td>
                                     <td>{{i.billno}}</td>
                                     <td>{{i.party.party_name}}</td>
-                                    <td>debit</td>
+                                    <td>debit note</td>
                                     <td>{{i.payment_type}}</td>
                                     <td>{{i.grandtotal}}</td>
                                     <td>{{i.balance_amount}}</td>
@@ -536,7 +566,7 @@
         $('.clear-filter').on('click', function () {
             $('#myTable tbody tr').show();
             $(this).siblings('.filter-value').val('');
-
+            window.reload();
             // Close the filter dropdown
             // $(this).closest('.filter-dropdown').hide();
         });
@@ -558,8 +588,11 @@ jQuery(document).ready(function ($) {
         });
         $("#myTable1 tbody tr").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          
         });
+       
     });
+   
     $(document).on('click', '.btn_print', function (event) {
         $('#myTable').removeClass('table-hover');
         var printContents = document.getElementById("content").innerHTML;
@@ -570,10 +603,11 @@ jQuery(document).ready(function ($) {
         window.print();
 
         document.body.innerHTML = originalContents;
-
+        location.reload();
         $('#myTable').addClass('table-hover');
 
     });
+   
 });
 
 var table = document.getElementById("myTable");
@@ -654,6 +688,7 @@ function exportAsExcel() {
     const wb = XLSX.utils.table_to_book(table);
 
     XLSX.writeFile(wb, 'purchasereport.xlsx');
+    location.reload();
 }
 </script>
 
@@ -676,6 +711,7 @@ function exportAsExcel() {
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', }
             };
             html2pdf().set(opt).from(element).save();
+            
     
 }
 
@@ -693,18 +729,36 @@ function exportAsExcel() {
         for (var i = 1; i < rows.length; i++) {
             if(rows[i].style.display !='none'){
 
-                var ucells = rows[i].getElementsByTagName('td')[5];
+                var ucells = rows[i].getElementsByTagName('td')[6];
+                var uamount = rows[i].getElementsByTagName('td')[3];
+                var uvalue = uamount.textContent || uamount.innerText;
                 var utextValue = ucells.textContent || ucells.innerText;
+                if(uvalue == 'bill'){
                 tunpaid += parseFloat(utextValue)
-
-                var tcells = rows[i].getElementsByTagName('td')[6];
+                }
+                if(uvalue == 'debit note'){
+                tunpaid -= parseFloat(utextValue)
+                }
+               
+                var tcells = rows[i].getElementsByTagName('td')[5];
+                var uamount = rows[i].getElementsByTagName('td')[3];
+                var uvalue = uamount.textContent || uamount.innerText;
                 var ttextValue = tcells.textContent || tcells.innerText;
-                ttotal += parseFloat(ttextValue)
+                if(uvalue == 'bill'){
+                    ttotal += parseFloat(ttextValue)
+                }
+                if(uvalue == 'debit note'){
+                    ttotal -= parseFloat(ttextValue)
+                }
+               
             }
         }
-        document.getElementById('paidval').textContent = tunpaid-ttotal
+        document.getElementById('paidval').textContent = ttotal-tunpaid
         document.getElementById('unpaidval').textContent = tunpaid
         document.getElementById('totalval').textContent = ttotal
+        document.getElementById('paidval1').textContent = ttotal-tunpaid
+        document.getElementById('unpaidval1').textContent = tunpaid
+        document.getElementById('totalval1').textContent = ttotal
     }
 </script>
 
