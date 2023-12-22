@@ -125,8 +125,8 @@
                             <input type="text"  name="message" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <lable>Choose File</lable>
-                            <input type="file"  name="file" required class="form-control">
+                            <lable>Choose File(*.pdf)</lable>
+                            <input type="file"  name="file" required class="form-control"  title="pdf files only">
                         </div>
                         <button type="submit" class=" btn  btn-primary mx-auto d-block">Share</button>
                       </form>
@@ -211,7 +211,6 @@
                         <div class="table-responsive">
                         <table id="myTable"
                             class="table table-bordered table-info table-hover  tb  w-100">
-                            <h2 class="text-center mb-7">{{staff.company.company_name}}</h2>
                             <thead>
                                 
                                 <th class="text-center fs-2">Date
@@ -416,8 +415,14 @@
                     <div id="content" style="display:none;">
                         <div id="content1">
                             
-                        <h2>Purchase Report</h2>
-                        <h4 style="color:red;">{{staff.company.company_name}}</h4>
+                       
+                        <h2 style="text-align: center; color:red;">{{staff.company.company_name}}</h2>
+                        <h4 style="text-align: center;">Purchase Report</h4>
+                        <h5 style="text-align: center;">
+                            <span id="sdate" style="color:black; text-align: center;"></span>------
+                            <span id="edate" style="color:black; text-align: center;"></span></h5>
+                       
+                       
                         <div class="row mt-7" style="width: auto;" >
                             <div class="d-flex">
                                 <div class="bg-success  p-3 m-3  mr-3 ml-3 fs-3" style="border-radius: 20px;">
@@ -440,7 +445,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h3 style="text-align: center;">{{staff.company.company_name}}</h3>
+                       
                         <table class="table table-bordered" id="myTable1">
                             <thead style="color: blue;">
                                 <th>DATE</th>
@@ -603,7 +608,6 @@ jQuery(document).ready(function ($) {
         window.print();
 
         document.body.innerHTML = originalContents;
-        location.reload();
         $('#myTable').addClass('table-hover');
 
     });
@@ -613,6 +617,7 @@ jQuery(document).ready(function ($) {
 var table = document.getElementById("myTable");
 var table2=document.getElementById("myTable1");
 var fromDate;
+var toDate;
 $('#in1').on('change', function () {
     fromDate = $(this).val();
     $('#in2').prop('min', function () {
@@ -624,6 +629,8 @@ $('#in1').on('change', function () {
     var prow=table2.getElementsByTagName("tr")
 
     console.log(startDate);
+    document.getElementById("sdate").innerHTML = startDate.toLocaleDateString();
+    
     for (var i = 1; i < rows.length; i++) {
         var row = rows[i];
         var prow2 = prow[i];
@@ -648,7 +655,7 @@ $('#in1').on('change', function () {
     // document.getElementById("d1").innerHTML = tdate.toLocaleDateString(undefined, options);
 
 });
-var toDate;
+
 $('#in2').on('change', function () {
     toDate = $(this).val();
     $('#in1').prop('max', function () {
@@ -658,7 +665,7 @@ $('#in2').on('change', function () {
     var endDate = new Date(document.getElementById("in2").value);
     var rows = table.getElementsByTagName("tr");
     var prow =table2.getElementsByTagName("tr")
-
+    document.getElementById("edate").innerHTML = endDate.toLocaleDateString();
     for (var i = 1; i < rows.length; i++) {
         var row = rows[i];
         var prow2 =prow[i];
@@ -705,7 +712,7 @@ function exportAsExcel() {
             var opt =
             {
                 margin: 1,
-                filename: 'PurchaseBill_No'+ '{{pbill.billno}}' + '.pdf',
+                filename: 'Purchase report' + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', }
