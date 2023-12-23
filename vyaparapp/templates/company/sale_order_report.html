@@ -382,7 +382,7 @@
                         </table>
                         <div>
                             Total Amount <p id="totalval"></p>
-                            TOTAL Count:<p id="totalc">}</p>
+                            TOTAL Count:<p id="totalc"></p>
                         </div>
 
 
@@ -582,7 +582,39 @@
     }
 </script>
 <script>
+function filterDates2() {
+        
+        var fromDate = document.getElementById("in1").value;
+        var selectedDate = new Date(fromDate);
+        selectedDate.setDate(selectedDate.getDate() - 1);
+        var toDate = document.getElementById("in2").value;
+        var table = document.getElementById("myTable1");
+        var rows = table.getElementsByTagName("tr");
+        for (var i = 1; i < rows.length; i++) {
+            var currentDate = rows[i].getElementsByTagName("td")[0].innerText;
+            var date = new Date(currentDate.replace(/(\d{2})-(\d{2})-(\d{2})/, "$2/$1/$3"));
+            if ((fromDate && date >= selectedDate) || !fromDate) {
+                if ((toDate && date <= new Date(toDate)) || !toDate) {
+                    rows[i].style.display = "table-row";
+                    isEmpty = false;
+                } else {
+                    rows[i].style.display = "none";
+                }
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+        emptyMessage.style.display = isEmpty ? 'block' : 'none';
+        
+    }    
+
+
+</script>
+
+
+<script>
     function filterDates() {
+       
         
         var fromDate = document.getElementById("in1").value;
         var selectedDate = new Date(fromDate);
@@ -604,71 +636,13 @@
                 rows[i].style.display = "none";
             }
         }
+        filterDates2()
         emptyMessage.style.display = isEmpty ? 'block' : 'none';
         calculatetotal()
-        filterDates2()
     }
 </script>
-<script>
-var table2=document.getElementById("myTable1");
-var fromDate;
-var toDate;
-$('#in1').on('change', function () {
-    fromDate = $(this).val();
-    $('#in2').prop('min', function () {
-        return fromDate
-    });
-    var startDate = new Date(document.getElementById("in1").value);
-    var endDate = new Date(document.getElementById("in2").value);
-    var rows = table2.getElementsByTagName("tr")
-    document.getElementById("sdate").innerHTML = startDate.toLocaleDateString();
-    for (var i = 1; i < rows.length; i++) {
-        var row = rows[i];
-        var dateCell = row.cells[0];
-        var rowDate = new Date(dateCell.textContent);
-        if ((rowDate >= startDate) || (rowDate <= endDate && rowDate >= startDate)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    }
 
 
 
-    // var tdate = new Date(fromDate)
-    // var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    // document.getElementById("d1").innerHTML = tdate.toLocaleDateString(undefined, options);
-
-});
-$('#in2').on('change', function () {
-    toDate = $(this).val();
-    $('#in1').prop('max', function () {
-        return toDate
-    })
-    var startDate = new Date(document.getElementById("in1").value);
-    var endDate = new Date(document.getElementById("in2").value);
-    var rows = table2.getElementsByTagName("tr");
-    document.getElementById("edate").innerHTML = endDate.toLocaleDateString();
-    for (var i = 1; i < rows.length; i++) {
-        var row = rows[i];
-        var dateCell = row.cells[0];
-        var rowDate = new Date(dateCell.textContent);
-        if (rowDate <= endDate && rowDate >= startDate) {
-            row.style.display = "";
-            
-
-        } else {
-            row.style.display = "none";
-            
-        }
-    }
-    
-    // var tdate = new Date(toDate)
-    // var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    // document.getElementById("d2").innerHTML = "  To  " + tdate.toLocaleDateString(undefined, options);
-
-})
-
-</script>
 
 {% endblock %}
