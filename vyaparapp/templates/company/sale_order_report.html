@@ -18,7 +18,21 @@
 
 
 <style>
-    
+    @media print{
+        body{
+            visibility: hidden !important; /* hide everything in body when in print mode*/
+        }
+        .printContainer {
+            visibility: visible !important; /* Override the rule above to only show the printables*/
+            position: absolute;
+            z-index: 99999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: large;
+        } 
+    } 
 </style>
 
 
@@ -34,17 +48,19 @@
                         <div class="card-group w-100 mx-auto d-block"> 
                             <h2 style="color:red; text-align: center;">{{staff.company.company_name}}</h2>
                             <h4 style="text-align: center;">Sales Order Report</h4>
-                           
+                            <h5 style="text-align: center;">
+                                <span id="s1date" style="color:black; text-align: center;"></span>
+                                <span id="e1date" style="color:black; text-align: center;"></span></h5>
                             </div>
                         <div class="bar d-flex justify-content-between">
                             <div class=" card-group">
                                 <div class="px-2">
                                     <label style="text-align:left ">From</label><br>
-                                    <input name="FromDate" class="inputdate form-control" type="date" id="in1" onchange="filterDates()">
+                                    <input name="FromDate" class="inputdate form-control" type="date" id="in1" >
                                 </div>
                                 <div class="px-2">
                                     <label style="text-align:left ">To</label><br>
-                                    <input name="ToDate" class="inputdate form-control" type="date" id="in2" onchange="filterDates()">
+                                    <input name="ToDate" class="inputdate form-control" type="date" id="in2" >
                                 </div>
                             </div>
                             <div class=" card-group">
@@ -365,7 +381,7 @@
                             <tbody>
                                 {% for i in sale %}
                                 <tr>
-                                    <td>{{i.orderdate}}</td>
+                                    <td>{{i.orderdate|date:'Y-m-d'}}</td>
                                     <td>{{i.orderno}}</td>
                                     <td>{{i.partyname}}</td>
                                     <td>{{i.duedate}}</td>
@@ -392,7 +408,7 @@
                             <h4 style="color:red; text-align: center;">{{staff.company.company_name}}</h4>
                             <h2 style="text-align: center;">Sales Order Report</h2>
                             <h5 style="text-align: center;">
-                            <span id="sdate" style="color:black; text-align: center;"></span>------
+                            <span id="sdate" style="color:black; text-align: center;"></span>
                             <span id="edate" style="color:black; text-align: center;"></span></h5>
                        
                         <table class="table table-bordered" id="myTable1" >
@@ -426,8 +442,8 @@
                             
                         </table>
                         <div>
-                            <p>TOTAL Amount:{{s}}</p>
-                            <p>TOTAL Count:{{c}}</p>
+                            TOTAL Amount: <p id="totalval1"></p>
+                            TOTAL Count:<p id="totalc1"></p>
                         </div>
                     </div>
                     </div>
@@ -460,20 +476,23 @@
             });
         });
         $(document).on('click', '.btn_print', function (event) {
-            $('#myTable1').removeClass('table-hover');
-            var printContents = document.getElementById("content").innerHTML;
-            var originalContents = document.body.innerHTML;
+    $('#myTable').removeClass('table-hover');
+    var printContents = $("#content").clone(); // Clone the content-div to avoid modifying the original content
+    printContents.find('.hideon-print').remove(); // Remove columns by class name
 
-            document.body.innerHTML = printContents;
+    var $printerDiv = $('<div class="printContainer" id=printContainer></div>');
+    $printerDiv.html(printContents.html());
+    $('body').append($printerDiv).addClass("printingContent");
+    var h1Element = document.createElement("h1");
+    var head = document.getElementById("printContainer");
+    head.insertBefore(h1Element, head.firstChild);
+    window.print();
+    $printerDiv.remove();
+    $('body').removeClass("printingContent");
 
-            window.print();
-
-            document.body.innerHTML = originalContents;
-            
-
-            $('#myTable1').addClass('table-hover');
         });
     });
+ 
 
     
     function exportAsExcel() {
@@ -498,10 +517,10 @@
 
             var opt =
             {
-                margin: 1,
+                margin: 0.7,
                 filename: 'sale order report' + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
+                html2canvas: { scale: 4 },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', }
             };
             html2pdf().set(opt).from(element).save();
@@ -545,7 +564,85 @@
             // Close the filter dropdown
             // $(this).closest('.filter-dropdown').hide();
         });
+
     });
+
+  
+
+var table = document.getElementById("myTable");
+var table2=document.getElementById("myTable1");
+var fromDate;
+var toDate;
+$('#in1').on('change', function () {
+    fromDate = $(this).val();
+    $('#in2').prop('min', function () {
+        return fromDate
+    });
+    var startDate = new Date(document.getElementById("in1").value);
+    var endDate = new Date(document.getElementById("in2").value);
+    var rows = table.getElementsByTagName("tr")
+    var prow=table2.getElementsByTagName("tr")
+
+    console.log(startDate);
+    document.getElementById("sdate").innerHTML = String(startDate.toLocaleDateString()) + ' TO  ';
+    document.getElementById("s1date").innerHTML = String(startDate.toLocaleDateString()) +  ' TO ';
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var prow2 = prow[i];
+        var dateCell = row.cells[0];
+        var rowDate = new Date(dateCell.textContent);
+
+        if ((rowDate >= startDate) || (rowDate <= endDate && rowDate >= startDate)) {
+            row.style.display = "";
+            prow2.style.display ="";
+
+        } else {
+            row.style.display = "none";
+            prow2.style.display ="none";
+
+        }
+    }
+    calculatetotal()
+
+
+    // var tdate = new Date(fromDate)
+    // var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    // document.getElementById("d1").innerHTML = tdate.toLocaleDateString(undefined, options);
+
+});
+
+$('#in2').on('change', function () {
+    toDate = $(this).val();
+    $('#in1').prop('max', function () {
+        return toDate
+    })
+    var startDate = new Date(document.getElementById("in1").value);
+    var endDate = new Date(document.getElementById("in2").value);
+    var rows = table.getElementsByTagName("tr");
+    var prow =table2.getElementsByTagName("tr")
+    document.getElementById("edate").innerHTML = endDate.toLocaleDateString();
+    document.getElementById("e1date").innerHTML = endDate.toLocaleDateString();
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var prow2 =prow[i];
+        var dateCell = row.cells[0];
+        var rowDate = new Date(dateCell.textContent);
+        if (rowDate <= endDate && rowDate >= startDate) {
+            row.style.display = "";
+            prow2.style.display = "";
+
+        } else {
+            row.style.display = "none";
+            prow2.style.display = "none";
+
+        }
+    }
+    calculatetotal()
+    // var tdate = new Date(toDate)
+    // var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    // document.getElementById("d2").innerHTML = "  To  " + tdate.toLocaleDateString(undefined, options);
+
+})
 </script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
@@ -576,71 +673,14 @@
         
         document.getElementById('totalval').textContent = ttotal
         document.getElementById('totalc').textContent =c
+        document.getElementById('totalval1').textContent = ttotal
+        document.getElementById('totalc1').textContent =c
     
         
         
     }
 </script>
-<script>
-function filterDates2() {
-        
-        var fromDate = document.getElementById("in1").value;
-        var selectedDate = new Date(fromDate);
-        selectedDate.setDate(selectedDate.getDate() - 1);
-        var toDate = document.getElementById("in2").value;
-        var table = document.getElementById("myTable1");
-        var rows = table.getElementsByTagName("tr");
-        for (var i = 1; i < rows.length; i++) {
-            var currentDate = rows[i].getElementsByTagName("td")[0].innerText;
-            var date = new Date(currentDate.replace(/(\d{2})-(\d{2})-(\d{2})/, "$2/$1/$3"));
-            if ((fromDate && date >= selectedDate) || !fromDate) {
-                if ((toDate && date <= new Date(toDate)) || !toDate) {
-                    rows[i].style.display = "table-row";
-                    isEmpty = false;
-                } else {
-                    rows[i].style.display = "none";
-                }
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
-        emptyMessage.style.display = isEmpty ? 'block' : 'none';
-        
-    }    
 
-
-</script>
-
-
-<script>
-    function filterDates() {
-       
-        
-        var fromDate = document.getElementById("in1").value;
-        var selectedDate = new Date(fromDate);
-        selectedDate.setDate(selectedDate.getDate() - 1);
-        var toDate = document.getElementById("in2").value;
-        var table = document.getElementById("myTable");
-        var rows = table.getElementsByTagName("tr");
-        for (var i = 1; i < rows.length; i++) {
-            var currentDate = rows[i].getElementsByTagName("td")[0].innerText;
-            var date = new Date(currentDate.replace(/(\d{2})-(\d{2})-(\d{2})/, "$2/$1/$3"));
-            if ((fromDate && date >= selectedDate) || !fromDate) {
-                if ((toDate && date <= new Date(toDate)) || !toDate) {
-                    rows[i].style.display = "table-row";
-                    isEmpty = false;
-                } else {
-                    rows[i].style.display = "none";
-                }
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
-        filterDates2()
-        emptyMessage.style.display = isEmpty ? 'block' : 'none';
-        calculatetotal()
-    }
-</script>
 
 
 

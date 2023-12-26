@@ -7659,6 +7659,8 @@ def send_purchase_report_via_mail(request):
   return redirect('purchase_report')
 #-------------------------------------------------------------------------------
 def day_book_report(request):
-  return render(request,'company/day_book_report.html')
+  id=request.session.get('staff_id')
+  staff=staff_details.objects.get(id=id)
+  return render(request,'company/day_book_report.html',{'staff':staff})
 #end
     
