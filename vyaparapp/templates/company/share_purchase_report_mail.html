@@ -11,9 +11,15 @@
 <body>
     <div class="my-5 page" size="A4">
         <div class="col-md-4">
-            <h3>
-                <center class="text-black"><b>purchase report</b></center>
-            </h3>
+            <div class="card-group w-100 mx-auto d-block"> 
+                <h2 style="color:red; text-align: center;">{{staff.company.company_name}}</h2>
+            <h4 style="text-align: center;">Purchase Report</h4>
+            <h5 style="text-align: center;">
+                <span id="s1date" style="color:black; text-align: center;"></span>
+                <span id="e1date" style="color:black; text-align: center;"></span></h5>
+            
+
+            </div>
         </div>
        
         <table class="table1 table-bordered" style="border-color: black;">
@@ -27,8 +33,6 @@
                     <td>
                        
                         <p class="address" style="font-weight: bold;color: #000;"> 
-                            <p class="text-info" style="font-weight: bold; color: rgb(49, 49, 138);">
-                            {{staff.company.company_name}},</p>
                             {{cmp.address}}<br>
                             {{ staff.company.address }} <br>
                             {{staff.company.city}},
@@ -43,9 +47,30 @@
                 </tr>
             </tbody>
         </table>
+        <div class="row mt-7" style="width: auto;" >
+            <div class="d-flex">
+                <div class="bg-success  p-3 m-3  mr-3 ml-3 fs-3" style="border-radius: 20px;">
+                    <p style="margin-bottom: 5px;"> Paid</p>
+                    <p style="font-size:large;"> <span id="paidval"></span></p>
+                </div>
+                <div class="text-dark pt-5" >
+                    <i class="fa fa-plus border-dark " aria-hidden="true" style="color: black;"></i>
+                </div>
+                <div class="bg-warning  p-3 m-3  mr-3 ml-3  fs-3" style="border-radius:20px;">
+                    <p style="margin-bottom: 5px;"> Unpaid</p>
+                    <p style="font-size:large;"><span id="unpaidval"></span></p>
+                </div>
+                <div class="text-dark pt-5">
+                    <i class="fa-solid fa fa-equals" style="color: black;"></i>
+                </div>
+                <div class="bg-secondary p-3 m-3 mr-3 ml-3  fs-3" style="border-radius:20px;">
+                    <p style="margin-bottom: 5px;"> Total</p>
+                    <p style="font-size:large;">  <span id="totalval"></span></p>
+                </div>
+            </div>
+        </div>
 
         <table style="text-align: center;">
-            <h3 >{{staff.company.company_name}}</h3>
             <thead style="text-align: center; color:blue;">
                 <th>DATE</th>
                 <th>NUMBER</th>
