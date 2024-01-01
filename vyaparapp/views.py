@@ -7649,6 +7649,7 @@ def send_purchase_report_via_mail(request):
     filters_by=request.POST['filter']
     emails=request.POST['email']
     mess=request.POST['message']
+    #filter using date-------------------
     if from_date_str and To_date_str:
       print(from_date_str)
       print(To_date_str)
@@ -7681,13 +7682,16 @@ def send_purchase_report_via_mail(request):
       email.attach(filename, pdf, "application/pdf")
       email.send(fail_silently=False)
       return redirect('purchase_report')
+    #if search input -------------------------
     if search:
-      u= party.objects.filter(party_name=search)
+      #party name---------------------
+      u= party.objects.filter(party_name__startswith=search)
       if u:
         id=request.session.get('staff_id')
         staff=staff_details.objects.get(id=id)
-        party_name=party.objects.get(party_name=search)
+        party_name=party.objects.get(party_name__startswith=search)
         if PurchaseBill.objects.filter(staff=id,party=party_name.id).exists or purchasedebit.objects.filter(staff=id,party=party_name.id).exists:
+          print('aa')
           purchase_data=PurchaseBill.objects.filter(staff=id,party=party_name.id)
           debit_data=purchasedebit.objects.filter(staff=id,party=party_name.id)
           paid = unpaid = total=0
@@ -7714,25 +7718,29 @@ def send_purchase_report_via_mail(request):
           email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
+          print('aa')
           return redirect('purchase_report')
-      if PurchaseBill.objects.filter(billno=search).exists or  purchasedebit.objects.filter(billno=search).exists:
+      a=PurchaseBill.objects.filter(pay_method__startswith=search)
+      b= purchasedebit.objects.filter(payment_type__startswith=search)
+      if a or b:
+        print('nb')
         id=request.session.get('staff_id')
         staff=staff_details.objects.get(id=id)
-        if PurchaseBill.objects.filter(staff=id,billno=search).exists or purchasedebit.objects.filter(staff=id,billno=search).exists:
-          purchase_data=PurchaseBill.objects.filter(staff=id,billno=search)
-          debit_data=purchasedebit.objects.filter(staff=id,billno=search)
+        if PurchaseBill.objects.filter(staff=id,pay_method__startswith=search).exists or purchasedebit.objects.filter(staff=id,payment_type__startswith=search).exists:
+          urchase_data=PurchaseBill.objects.filter(staff=id,pay_method__startswith=search)
+          debit_data=purchasedebit.objects.filter(staff=id,payment_type__startswith=search)
           paid = unpaid = total=0
           for i in purchase_data:
             paid +=float(i.advance)
             unpaid +=float(i.balance)
             total +=float(i.grandtotal)
           content={
-          'bill':purchase_data,
-          'debit':debit_data,
-          'staff':staff,
-          'paid':paid,
-          'unpaid':unpaid,
-          'total':total
+            'bill':purchase_data,
+            'debit':debit_data,
+            'staff':staff,
+            'paid':paid,
+            'unpaid':unpaid,
+            'total':total
           }
           template_path = 'company/share_purchase_report_mail.html'
           template = get_template(template_path)
@@ -7745,7 +7753,104 @@ def send_purchase_report_via_mail(request):
           email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
-          return redirect('purchase_report')
+          return redirect('purchase_report')  
+        # if enterd input is digit or not------------------
+      if search.isdigit():
+        if PurchaseBill.objects.filter(billno__startswith=search) or  purchasedebit.objects.filter(billno__startswith=search):
+          id=request.session.get('staff_id')
+          staff=staff_details.objects.get(id=id)
+          if PurchaseBill.objects.filter(staff=id,billno__startswith=search).exists or purchasedebit.objects.filter(staff=id,billno__startswith=search).exists:
+            purchase_data=PurchaseBill.objects.filter(staff=id,billno__startswith=search)
+            debit_data=purchasedebit.objects.filter(staff=id,billno__startswith=search)
+            paid = unpaid = total=0
+            for i in purchase_data:
+              paid +=float(i.advance)
+              unpaid +=float(i.balance)
+              total +=float(i.grandtotal)
+            content={
+            'bill':purchase_data,
+            'debit':debit_data,
+            'staff':staff,
+            'paid':paid,
+            'unpaid':unpaid,
+            'total':total
+            }
+            template_path = 'company/share_purchase_report_mail.html'
+            template = get_template(template_path)
+
+            html  = template.render(content)
+            result = BytesIO()
+            pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+            pdf = result.getvalue()
+            filename = f'Purchase Report.pdf'
+            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email.attach(filename, pdf, "application/pdf")
+            email.send(fail_silently=False)
+            return redirect('purchase_report')
+      #grandtotal --------------------------    
+      if PurchaseBill.objects.filter(grandtotal__startswith=search) or  purchasedebit.objects.filter(grandtotal__startswith=str(search)):
+        id=request.session.get('staff_id')
+        staff=staff_details.objects.get(id=id)
+        if PurchaseBill.objects.filter(staff=id,grandtotal__startswith=search).exists or purchasedebit.objects.filter(staff=id,grandtotal__startswith=str(search)).exists:
+          purchase_data=PurchaseBill.objects.filter(staff=id,grandtotal__startswith=search)
+          debit_data=purchasedebit.objects.filter(staff=id,grandtotal__startswith=str(search))
+          paid = unpaid = total=0
+          for i in purchase_data:
+            paid +=float(i.advance)
+            unpaid +=float(i.balance)
+            total +=float(i.grandtotal)
+          content={
+            'bill':purchase_data,
+            'debit':debit_data,
+            'staff':staff,
+            'paid':paid,
+            'unpaid':unpaid,
+            'total':total
+          }
+          template_path = 'company/share_purchase_report_mail.html'
+          template = get_template(template_path)
+
+          html  = template.render(content)
+          result = BytesIO()
+          pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+          pdf = result.getvalue()
+          filename = f'Purchase Report.pdf'
+          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email.attach(filename, pdf, "application/pdf")
+          email.send(fail_silently=False)
+          return redirect('purchase_report')    
+      #balance--------------------------  
+      if PurchaseBill.objects.filter(balance__startswith=search) or  purchasedebit.objects.filter(balance_amount__startswith=search):
+          id=request.session.get('staff_id')
+          staff=staff_details.objects.get(id=id)
+          if PurchaseBill.objects.filter(staff=id,balance__startswith=search).exists or purchasedebit.objects.filter(staff=id,balance_amount__startswith=search).exists:
+            purchase_data=PurchaseBill.objects.filter(staff=id,balance__startswith=search)
+            debit_data=purchasedebit.objects.filter(staff=id,balance_amount__startswith=search)
+            paid = unpaid = total=0
+            for i in purchase_data:
+              paid +=float(i.advance)
+              unpaid +=float(i.balance)
+              total +=float(i.grandtotal)
+            content={
+            'bill':purchase_data,
+            'debit':debit_data,
+            'staff':staff,
+            'paid':paid,
+            'unpaid':unpaid,
+            'total':total
+            }
+            template_path = 'company/share_purchase_report_mail.html'
+            template = get_template(template_path)
+
+            html  = template.render(content)
+            result = BytesIO()
+            pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+            pdf = result.getvalue()
+            filename = f'Purchase Report.pdf'
+            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email.attach(filename, pdf, "application/pdf")
+            email.send(fail_silently=False)
+            return redirect('purchase_report')        
   return redirect('purchase_report')     
 #-------------------------------------------------------------------------------
 def day_book_report(request):
