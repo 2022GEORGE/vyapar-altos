@@ -106,6 +106,22 @@
                     <div class="modal-body">
                       <form method="post" action="{% url 'send_sale_report_via_mail' %}"    id="email">
                         {% csrf_token %}
+                        <div class="form-group"  hidden>
+                            <label>From DATE</label>
+                            <input type="Date" name="fdate" id="fdate" class="form-control" value="{{a}}">
+                        </div>
+                        <div class="form-group"  hidden>
+                            <label>To DATE</label>
+                            <input type="date" name="tdate" id="tdate" class="form-control" value="{{b}}">
+                        </div>
+                        <div class="form-group"  hidden>
+                            <label>Search by</label>
+                            <input type="text" name="search" id="search" class="form-control">
+                        </div>
+                        <div class="form-group"  hidden>
+                            <label>Filter By</label>
+                            <input type="text" name="filter" id="filter" class="form-control">
+                        </div>
                         <div class="form-group">
                             <lable>Mail id</lable>
                             <input type="mail" name='email' required class="form-control" id="message">
@@ -113,10 +129,6 @@
                         <div class="form-group">
                             <lable>Message</lable>
                             <input type="text"  name="message" required class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <lable>Choose File(*.pdf)</lable>
-                            <input type="file"  name="file" required class="form-control" title="pdf files only">
                         </div>
                         <button type="submit" class=" btn  btn-primary mx-auto d-block">Share</button>
                       </form>
@@ -384,7 +396,7 @@
                                     <td>{{i.orderdate|date:'Y-m-d'}}</td>
                                     <td>{{i.orderno}}</td>
                                     <td>{{i.partyname}}</td>
-                                    <td>{{i.duedate}}</td>
+                                    <td>{{i.duedate|date:'Y-m-d'}}</td>
                                     <td>{{i.action}}</td>
                                     <td>{{i.grandtotal}}</td>
                                     <td>{{i.paid}}</td>
@@ -430,7 +442,7 @@
                                     <td>{{i.orderdate}}</td>
                                     <td>{{i.orderno}}</td>
                                     <td>{{i.partyname}}</td>
-                                    <td>{{i.duedate}}</td>
+                                    <td>{{i.duedate|date:'Y-m-d'}}</td>
                                     <td>{{i.action}}</td>
                                     <td>{{i.grandtotal}}</td>
                                     <td>{{i.paid}}</td>
@@ -468,12 +480,14 @@
     jQuery(document).ready(function ($) {
         $("#search_input1").on("keyup", function () {
             var value = $(this).val().toLowerCase();
+            document.getElementById("search").value= value;
             $("#myTable tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
             $("#myTable1 tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
+            calculatetotal()
         });
         $(document).on('click', '.btn_print', function (event) {
     $('#myTable').removeClass('table-hover');
@@ -535,6 +549,7 @@
             const $table = $('#myTable');
             const columnIndex = $(this).closest('th').index();
             const filterValue = $(this).siblings('.filter-value').val().trim();
+            document.getElementById("filter").value =filterValue;
             console.log("=============================+++++++++++++++");
             console.log(filterValue)
 
@@ -555,6 +570,7 @@
                     console.log(this)
                 }
             });
+            calculatetotal()
         }
 
         $('.clear-filter').on('click', function () {
@@ -681,7 +697,15 @@ $('#in2').on('change', function () {
     }
 </script>
 
-
+<script>
+    $(document).ready(function () {
+     $('#in1, #in2').change(function () {
+       $('#fdate').val($('#in1').val());
+       $('#tdate').val($('#in2').val());
+      
+     });
+   });
+</script>
 
 
 

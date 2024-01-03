@@ -11,11 +11,17 @@
 <body>
     <div class="my-5 page" size="A4">
         <div class="col-md-4">
-            <h2>
-                <center class="text-black"><b>sales report</b></center>
-            </h2>
-        </div>
+            <div class="card-group w-100 mx-auto d-block"> 
+                <h2 style="color:red; text-align: center;">{{staff.company.company_name}}</h2>
+            <h4 style="text-align: center;">Purchase Report</h4>
+            <h5 style="text-align: center;">
+                <span id="s1date" style="color:black; text-align: center;">{{sdate}}</span>To
+                <span id="e1date" style="color:black; text-align: center;">{{edate}}</span></h5>
+            
 
+            </div>
+        </div>
+       
         <table class="table1 table-bordered" style="border-color: black;">
             <tbody>
                 <tr style="font-weight: bolder">
@@ -27,8 +33,6 @@
                     <td>
                        
                         <p class="address" style="font-weight: bold;color: #000;"> 
-                            <p class="text-info" style="font-weight: bold; color: rgb(49, 49, 138);">
-                            {{staff.company.company_name}},</p>
                             {{cmp.address}}<br>
                             {{ staff.company.address }} <br>
                             {{staff.company.city}},
@@ -43,14 +47,6 @@
                 </tr>
             </tbody>
         </table>
-
-
-
-
-
-
-
-
     <table class="table" id="myTable1" style="text-align: center;">
         <thead style="color:blue;">
             <th>DATE</th>
@@ -82,7 +78,7 @@
         
     </table>
     <div>
-        <p>TOTAL Amount:{{s}}</p>
+        <p>TOTAL Amount:{{total}}</p>
         <p>TOTAL Order:{{c}}</p>
     </div>
     <section>
