@@ -7629,7 +7629,8 @@ def send_sale_report_via_mail(request):
     To_date_str=request.POST['tdate']
     search=request.POST['search']
     filters_by=request.POST['filter']
-    emails=request.POST['email']
+    emails_string = request.POST['email']
+    emails= [email.strip() for email in emails_string.split(',')]
     mess=request.POST['message']
     #filter using date-------------------
     if from_date_str and To_date_str:
@@ -7659,7 +7660,7 @@ def send_sale_report_via_mail(request):
       pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
       pdf = result.getvalue()
       filename = f'sales Report.pdf'
-      email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+      email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
       email.attach(filename, pdf, "application/pdf")
       email.send(fail_silently=False)
       messages.info(request,'sales order report shared via mail')
@@ -7690,7 +7691,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7718,7 +7719,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7746,7 +7747,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7774,7 +7775,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7802,7 +7803,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7830,7 +7831,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7858,7 +7859,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7886,7 +7887,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7916,7 +7917,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7944,7 +7945,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -7972,7 +7973,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -8000,7 +8001,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -8028,7 +8029,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -8056,7 +8057,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -8084,7 +8085,7 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
@@ -8112,11 +8113,39 @@ def send_sale_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'sales Report.pdf'
-          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'sales order report shared via mail')
-          return redirect('sales_report')         
+          return redirect('sales_report') 
+    if search == '' or filters_by == '' or from_date_str == '' or To_date_str == '' : 
+      id=request.session.get('staff_id')
+      staff=staff_details.objects.get(id=id)
+      sale= salesorder.objects.filter(staff=id)
+      total=0
+      c=0
+      for i in sale:
+        c=c+1
+        total += float(i.grandtotal)
+      content={
+          'sale':sale,
+          'staff':staff,
+          'total':total,
+          'c':c
+      }
+      template_path = 'company/share_salereport_mail.html'
+      template = get_template(template_path)
+
+      html  = template.render(content)
+      result = BytesIO()
+      pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+      pdf = result.getvalue()
+      filename = f'sales Report.pdf'
+      email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
+      email.attach(filename, pdf, "application/pdf")
+      email.send(fail_silently=False)
+      messages.info(request,'sales order report shared via mail')
+      return redirect('sales_report')            
    
   return redirect('sales_report')     
 #------------------------------------------------------------------------------------
@@ -8126,7 +8155,8 @@ def send_purchase_report_via_mail(request):
     To_date_str=request.POST['tdate']
     search=request.POST['search']
     filters_by=request.POST['filter']
-    emails=request.POST['email']
+    emails_string = request.POST['email']
+    emails= [email.strip() for email in emails_string.split(',')]
     mess=request.POST['message']
     #filter using date-------------------
     if from_date_str and To_date_str:
@@ -8159,7 +8189,7 @@ def send_purchase_report_via_mail(request):
       pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
       pdf = result.getvalue()
       filename = f'Purchase Report.pdf'
-      email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+      email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
       email.attach(filename, pdf, "application/pdf")
       email.send(fail_silently=False)
       messages.info(request,'purchase report shared via mail')
@@ -8194,7 +8224,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8229,7 +8259,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8263,7 +8293,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8298,7 +8328,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8331,7 +8361,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8364,7 +8394,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8394,7 +8424,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8425,7 +8455,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8459,7 +8489,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8494,7 +8524,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8528,7 +8558,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8563,7 +8593,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8596,7 +8626,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8629,7 +8659,7 @@ def send_purchase_report_via_mail(request):
             pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
             pdf = result.getvalue()
             filename = f'Purchase Report.pdf'
-            email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+            email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
             email.attach(filename, pdf, "application/pdf")
             email.send(fail_silently=False)
             messages.info(request,'purchase report shared via mail')
@@ -8659,7 +8689,7 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
@@ -8690,11 +8720,41 @@ def send_purchase_report_via_mail(request):
           pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
           pdf = result.getvalue()
           filename = f'Purchase Report.pdf'
-          email = EmailMessage('Purchase Report',from_email=settings.EMAIL_HOST_USER,to=[emails])
+          email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
           email.attach(filename, pdf, "application/pdf")
           email.send(fail_silently=False)
           messages.info(request,'purchase report shared via mail')
           return redirect('purchase_report')   
+    if search == '' or filters_by == '' or from_date_str == '' or To_date_str == '' :
+      id=request.session.get('staff_id')
+      staff=staff_details.objects.get(id=id)
+      purchase_data=PurchaseBill.objects.filter(staff=id)
+      debit_data=purchasedebit.objects.filter(staff=id)
+      paid = unpaid = total=0
+      for i in purchase_data:
+        paid +=float(i.advance)
+        unpaid +=float(i.balance)
+        total +=float(i.grandtotal)
+      content={
+        'bill':purchase_data,
+        'debit':debit_data,
+        'staff':staff,
+        'paid':paid,
+        'unpaid':unpaid,
+        'total':total
+      }
+      template_path = 'company/share_purchase_report_mail.html'
+      template = get_template(template_path)
+      html  = template.render(content)
+      result = BytesIO()
+      pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+      pdf = result.getvalue()
+      filename = f'Purchase Report.pdf'
+      email = EmailMessage(mess,from_email=settings.EMAIL_HOST_USER,to=emails)
+      email.attach(filename, pdf, "application/pdf")
+      email.send(fail_silently=False)
+      messages.info(request,'purchase report shared via mail')
+      return redirect('purchase_report') 
   return redirect('purchase_report')     
 #-------------------------------------------------------------------------------
 def day_book_report(request):
